@@ -22,6 +22,9 @@ knitr::opts_chunk$set(
 library(tidyverse)
 library(ExpDes.pt)
 ```
+#### [Análise multivariada](https://github.com/arpanosso/macrofitas-cpfl/Docs/analise-multivariada.html)
+
+#### [Análise de variância](https://github.com/arpanosso/macrofitas-cpfl/Docs/analise-varianca.html)
 
 ## Pré-processamento
 ```{r}
@@ -54,13 +57,65 @@ Resumo geral
 skimr::skim(df)
 ```
 
+## Salvar o df em rds
+
+```{r}
+write_rds(df,"data/quimica-macrofita")
+```
 
 
+#### Corrplot geral
+```{r}
+# A programar
+```
 
 
+#### Corrplot por data
+```{r}
+# A programar
+```
+
+### Experimento de apicação em solo
+
+Leitura do banco
+```{r}
+dff <- readxl::read_xlsx("data-raw/dadoscpfl.xlsx",
+                        sheet = sheets[2],
+                        skip = 1) %>% 
+  janitor::clean_names() %>% 
+  mutate(
+    cr = ifelse(is.na(cr),0,cr),
+    cd = ifelse(is.na(cd),0,cd)
+  )
+```
+Resumo rápido do banco de dados
+
+```{r}
+glimpse(dff)
+```
+
+Resumo geral
+```{r}
+skimr::skim(dff)
+```
+
+## Salvar o df em rds
+
+```{r}
+write_rds(dff,"data/solo-macrofita")
+```
 
 
-
+#### Boxplot por tratamentos por variável
+```{r}
+# A programar
+dff %>% 
+  filter(macrofita != "TESTEM") %>% 
+  ggplot(aes(x=macrofita,y=mo, fill=macrofita)) +
+  geom_boxplot() +
+  facet_wrap(~dose_t_ha, scales = "free", ncol = 1) +
+  theme_bw()
+```
 
 
 

@@ -10,9 +10,9 @@ library(tidyverse)
 library(ExpDes.pt)
 ```
 
-#### [Análise multivariada](https://github.com/arpanosso/macrofitas-cpfl/Docs/analise-multivariada.html)
+#### [Análise multivariada](https://arpanosso.github.io/macrofitas-cpfl/Docs/analise-multivariada.html)
 
-#### [Análise de variância](https://github.com/arpanosso/macrofitas-cpfl/Docs/analise-varianca.html)
+#### [Análise de variância](https://arpanosso.github.io/macrofitas-cpfl/Docs/analise-varianca.html)
 
 ## Pré-processamento
 

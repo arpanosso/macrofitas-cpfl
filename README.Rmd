@@ -14,25 +14,60 @@ knitr::opts_chunk$set(
 )
 ```
 
-# macrofitas-cpfl
+# Análise de dados macrofitas-cpfl
 
-The goal of macrofitas-cpfl is to ...
+## Carregando Pacotes
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
-
-
-
-```{r cars}
+```{r}
 library(tidyverse)
-summary(cars)
+library(ExpDes.pt)
 ```
 
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date.
+## Pré-processamento
+```{r}
+sheets <- readxl::excel_sheets("data-raw/dadoscpfl.xlsx")
+```
+### Composição química
 
-You can also embed plots, for example:
+Leitura do banco
+```{r}
+df <- readxl::read_xlsx("data-raw/dadoscpfl.xlsx",
+                        sheet = sheets[1],
+                        skip = 1) %>% 
+  rename(data = "...1") %>% 
+  janitor::clean_names() %>% 
+  mutate(
+    amostra = str_to_lower(amostra),
+    cd = as.numeric(ifelse(cd == "<1",0.5,cd)),
+    cr = as.numeric(ifelse(cr == "<1",0.5,cr)),
+    pb = as.numeric(ifelse(pb == "<1",0.5,pb))
+  )
+```
+Resumo rápido do banco de dados
 
-```{r pressure, echo = FALSE}
-plot(pressure)
+```{r}
+glimpse(df)
 ```
 
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub.
+Resumo geral
+```{r}
+skimr::skim(df)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

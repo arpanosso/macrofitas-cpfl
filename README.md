@@ -1,31 +1,113 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# macrofitas-cpfl
+# Análise de dados macrofitas-cpfl
 
-The goal of macrofitas-cpfl is to …
-
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
+## Carregando Pacotes
 
 ``` r
 library(tidyverse)
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
+library(ExpDes.pt)
 ```
 
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date.
+## Pré-processamento
 
-You can also embed plots, for example:
+``` r
+sheets <- readxl::excel_sheets("data-raw/dadoscpfl.xlsx")
+```
 
-![](README_files/figure-gfm/pressure-1.png)<!-- -->
+### Composição química
 
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub.
+Leitura do banco
+
+``` r
+df <- readxl::read_xlsx("data-raw/dadoscpfl.xlsx",
+                        sheet = sheets[1],
+                        skip = 1) %>% 
+  rename(data = "...1") %>% 
+  janitor::clean_names() %>% 
+  mutate(
+    amostra = str_to_lower(amostra),
+    cd = as.numeric(ifelse(cd == "<1",0.5,cd)),
+    cr = as.numeric(ifelse(cr == "<1",0.5,cr)),
+    pb = as.numeric(ifelse(pb == "<1",0.5,pb))
+  )
+```
+
+Resumo rápido do banco de dados
+
+``` r
+glimpse(df)
+#> Rows: 35
+#> Columns: 17
+#> $ data    <dttm> 2018-02-01, 2018-02-01, 2018-02-01, 2018-02-01, 2018-02-01, 2…
+#> $ amostra <chr> "brasu", "brasu", "brasu", "brasu", "brasu", "eiccr", "eiccr",…
+#> $ n       <dbl> 10.6, 9.5, 7.9, 7.4, 12.5, 15.4, 20.0, 15.3, 20.2, 20.4, 26.6,…
+#> $ p       <dbl> 0.7, 0.5, 0.6, 0.4, 0.4, 1.5, 2.4, 1.6, 2.3, 2.1, 2.5, 4.1, 4.…
+#> $ k       <dbl> 19.7, 13.6, 14.3, 6.5, 4.7, 41.2, 43.8, 36.2, 35.3, 33.9, 43.6…
+#> $ ca      <dbl> 1.4, 1.3, 2.2, 1.4, 0.6, 19.9, 15.6, 17.6, 18.9, 15.5, 34.4, 3…
+#> $ mg      <dbl> 1.3, 1.2, 1.7, 1.2, 0.7, 5.2, 5.6, 5.4, 6.1, 4.8, 7.7, 7.1, 6.…
+#> $ s       <dbl> 2.3, 1.4, 2.3, 2.1, 1.6, 2.1, 2.5, 2.2, 2.7, 2.7, 3.0, 3.1, 3.…
+#> $ b       <dbl> 13, 8, 6, 6, 4, 31, 34, 36, 35, 30, 58, 67, 64, 75, 67, 4, 5, …
+#> $ cu      <dbl> 2, 3, 2, 1, 1, 12, 16, 15, 15, 15, 13, 22, 22, 16, 19, 3, 4, 4…
+#> $ fe      <dbl> 468, 1161, 234, 158, 408, 6533, 11368, 7814, 6299, 6977, 4059,…
+#> $ mn      <dbl> 95, 293, 102, 47, 105, 1653, 2512, 1282, 2037, 1500, 2178, 355…
+#> $ zn      <dbl> 12, 20, 14, 7, 9, 41, 62, 61, 44, 53, 78, 107, 101, 71, 99, 21…
+#> $ cd      <dbl> 0.5, 0.5, 0.5, 0.5, 0.5, 1.5, 1.3, 1.4, 1.1, 0.5, 1.6, 0.5, 1.…
+#> $ ni      <dbl> 1.6, 2.3, 3.3, 2.1, 1.1, 12.6, 21.3, 15.6, 16.6, 13.6, 15.4, 2…
+#> $ cr      <dbl> 1.5, 2.5, 0.5, 1.1, 0.5, 6.5, 12.9, 5.9, 4.8, 4.7, 3.6, 8.9, 8…
+#> $ pb      <dbl> 0.5, 0.5, 0.5, 0.5, 0.5, 2.5, 3.5, 3.0, 3.0, 2.5, 4.0, 5.5, 4.…
+```
+
+Resumo geral
+
+``` r
+skimr::skim(df)
+```
+
+|                                                  |      |
+|:-------------------------------------------------|:-----|
+| Name                                             | df   |
+| Number of rows                                   | 35   |
+| Number of columns                                | 17   |
+| \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_   |      |
+| Column type frequency:                           |      |
+| character                                        | 1    |
+| numeric                                          | 15   |
+| POSIXct                                          | 1    |
+| \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ |      |
+| Group variables                                  | None |
+
+Data summary
+
+**Variable type: character**
+
+| skim_variable | n_missing | complete_rate | min | max | empty | n_unique | whitespace |
+|:--------------|----------:|--------------:|----:|----:|------:|---------:|-----------:|
+| amostra       |         0 |             1 |   5 |   5 |     0 |        5 |          0 |
+
+**Variable type: numeric**
+
+| skim_variable | n_missing | complete_rate |    mean |      sd |    p0 |    p25 |    p50 |     p75 |    p100 | hist  |
+|:--------------|----------:|--------------:|--------:|--------:|------:|-------:|-------:|--------:|--------:|:------|
+| n             |         0 |             1 |   24.60 |   10.30 |   7.4 |  15.05 |   27.1 |   30.55 |    40.7 | ▃▆▂▇▃ |
+| p             |         0 |             1 |    2.51 |    1.38 |   0.4 |   0.85 |    3.2 |    3.35 |     4.5 | ▇▁▂▇▅ |
+| k             |         0 |             1 |   34.85 |   15.58 |   4.7 |  20.85 |   35.3 |   50.30 |    59.0 | ▃▇▃▅▇ |
+| ca            |         0 |             1 |   14.91 |   11.52 |   0.6 |   2.15 |   16.4 |   20.30 |    37.7 | ▆▃▇▂▂ |
+| mg            |         0 |             1 |    4.12 |    2.17 |   0.7 |   1.70 |    4.8 |    5.50 |     7.7 | ▇▃▂▇▆ |
+| s             |         0 |             1 |    2.75 |    0.46 |   1.4 |   2.50 |    2.8 |    3.10 |     3.2 | ▁▁▂▅▇ |
+| b             |         0 |             1 |   31.23 |   20.85 |   4.0 |  15.50 |   30.0 |   48.50 |    75.0 | ▇▇▃▅▃ |
+| cu            |         0 |             1 |   12.34 |    7.31 |   1.0 |   4.00 |   13.0 |   19.00 |    23.0 | ▇▁▇▃▇ |
+| fe            |         0 |             1 | 4255.63 | 3928.64 | 158.0 | 865.00 | 2698.0 | 6755.00 | 14068.0 | ▇▂▂▂▁ |
+| mn            |         0 |             1 | 1525.71 | 1092.84 |  47.0 | 291.00 | 1616.0 | 2140.00 |  4331.0 | ▇▇▇▂▂ |
+| zn            |         0 |             1 |   56.37 |   33.49 |   7.0 |  23.00 |   56.0 |   72.00 |   146.0 | ▆▇▅▂▁ |
+| cd            |         0 |             1 |    0.87 |    0.43 |   0.5 |   0.50 |    0.5 |    1.25 |     1.7 | ▇▁▃▂▂ |
+| ni            |         0 |             1 |   12.63 |    6.89 |   1.1 |   5.85 |   14.0 |   16.15 |    27.5 | ▅▁▇▃▁ |
+| cr            |         0 |             1 |    7.35 |    3.93 |   0.5 |   4.95 |    7.3 |   10.30 |    13.7 | ▃▃▇▂▆ |
+| pb            |         0 |             1 |   11.18 |   12.56 |   0.5 |   2.50 |    5.0 |   16.65 |    59.0 | ▇▅▁▁▁ |
+
+**Variable type: POSIXct**
+
+| skim_variable | n_missing | complete_rate | min        | max        | median     | n_unique |
+|:--------------|----------:|--------------:|:-----------|:-----------|:-----------|---------:|
+| data          |         0 |             1 | 2018-02-01 | 2018-06-01 | 2018-06-01 |        2 |

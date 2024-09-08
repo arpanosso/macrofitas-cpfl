@@ -84,6 +84,7 @@ dff <- readxl::read_xlsx("data-raw/dadoscpfl.xlsx",
                         skip = 1) %>% 
   janitor::clean_names() %>% 
   mutate(
+    macrofita = str_to_lower(macrofita),
     cr = ifelse(is.na(cr),0,cr),
     cd = ifelse(is.na(cd),0,cd)
   )
@@ -110,7 +111,7 @@ write_rds(dff,"data/solo-macrofita")
 ```{r}
 # A programar
 dff %>% 
-  filter(macrofita != "TESTEM") %>% 
+  filter(macrofita != "testem") %>% 
   ggplot(aes(x=macrofita,y=mo, fill=macrofita)) +
   geom_boxplot() +
   facet_wrap(~dose_t_ha, scales = "free", ncol = 1) +

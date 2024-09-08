@@ -144,6 +144,7 @@ dff <- readxl::read_xlsx("data-raw/dadoscpfl.xlsx",
                         skip = 1) %>% 
   janitor::clean_names() %>% 
   mutate(
+    macrofita = str_to_lower(macrofita),
     cr = ifelse(is.na(cr),0,cr),
     cd = ifelse(is.na(cd),0,cd)
   )
@@ -155,7 +156,7 @@ Resumo rápido do banco de dados
 glimpse(dff)
 #> Rows: 50
 #> Columns: 24
-#> $ macrofita <chr> "BRASU", "BRASU", "BRASU", "BRASU", "BRASU", "BRASU", "BRASU…
+#> $ macrofita <chr> "brasu", "brasu", "brasu", "brasu", "brasu", "brasu", "brasu…
 #> $ dose_t_ha <dbl> 13.5, 13.5, 13.5, 13.5, 13.5, 27.0, 27.0, 27.0, 27.0, 27.0, …
 #> $ repeticao <dbl> 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, …
 #> $ mo        <dbl> 8, 7, 8, 7, 7, 10, 10, 9, 9, 9, 9, 10, 10, 8, 10, 8, 8, 8, 7…
@@ -246,7 +247,7 @@ write_rds(dff,"data/solo-macrofita")
 ``` r
 # A programar
 dff %>% 
-  filter(macrofita != "TESTEM") %>% 
+  filter(macrofita != "testem") %>% 
   ggplot(aes(x=macrofita,y=mo, fill=macrofita)) +
   geom_boxplot() +
   facet_wrap(~dose_t_ha, scales = "free", ncol = 1) +

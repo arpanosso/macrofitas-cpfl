@@ -5,25 +5,133 @@ date: "2024-09-06"
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE,
+                      message = FALSE,
+                      error = FALSE,
+                      warning = FALSE)
 ```
 
-## R Markdown
+## Carregando pacotes
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+```{r}
+library(tidyverse)
+library(corrplot)
+library(vegan)
+theme_set(theme_bw())
 ```
 
-## Including Plots
+## Carregando dados
 
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r}
+data_set <- read_rds("../data/quimica-macrofita")
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+## Retirando as datas
+
+```{r}
+datas <- data_set %>% 
+  pull(data) %>% 
+  unique()
+glimpse(data_set)
+```
+
+
+```{r, echo=FALSE}
+ng <- c(2,4)
+for(i in seq_along(datas)){
+  data_set_aux <- data_set %>% 
+    filter(data == datas[i]) %>% 
+    select(n:pb)
+  
+  nomes  <- data_set %>% 
+    filter(data == datas[i]) %>%  
+    pull(amostra)
+  
+  mc <- cor(data_set_aux)
+  print("##########################################")
+  print(paste0("     Data ",datas[i]))
+  print("##########################################")
+  print("======== Análise de correlação linear ========== ")
+  corrplot::corrplot(mc)
+  
+  print("======== Análise de Agrupamento Hierárquico ========== ")
+  da_pad<-decostand(data_set_aux, 
+                    method = "standardize",
+                    na.rm=TRUE)
+  da_pad_euc<-vegdist(da_pad,"euclidean") 
+  da_pad_euc_ward<-hclust(da_pad_euc, method="ward.D")
+  plot(da_pad_euc_ward, 
+       ylab="Distância Euclidiana",
+       xlab="Acessos", hang=-1,
+       col="blue", las=1,
+       cex=.6,lwd=1.5);box()
+  grupo<-cutree(da_pad_euc_ward,ng[i])
+  
+  print("======== Análise de Componentes Principais ========== ")
+  pca <-  prcomp(da_pad,scale.=TRUE)
+  # Autovalores
+  eig<-pca$sdev^2
+  print("==== Autovalores ====")
+  print(round(eig,3))
+  print("==== % da variância explicada ====")
+  ve<-eig/sum(eig)
+  print(round(ve,4))
+  print("==== % da variância explicada acumulada ====")
+  print(round(cumsum(ve),4)*100)
+  print("==== Poder Discriminante ====")
+  mcor<-cor(da_pad,pca$x)
+  corrplot(mcor)
+  print("==== screeplot ====")
+  screeplot(pca)
+  abline(h=1)
+  print("==== Gráfico Biplot ====")
+  pc1V<-cor(da_pad,pca$x)[,1]/sd(cor(da_pad,pca$x)[,1])
+  pc2V<-cor(da_pad,pca$x)[,2]/sd(cor(da_pad,pca$x)[,2])
+  pc3V<-cor(da_pad,pca$x)[,3]/sd(cor(da_pad,pca$x)[,3])
+  pc1c<-pca$x[,1]/sd(pca$x[,1])
+  pc2c<-pca$x[,2]/sd(pca$x[,2])
+  pc3c<-pca$x[,3]/sd(pca$x[,3])
+  nv<-ncol(data_set_aux) # número de variáveis utilizadas na análise
+  # gráfico biplot
+  bip<-data.frame(pc1c,pc2c,pc3c,grupo)
+  texto <- data.frame(
+    x = pc1V,
+    y = pc2V,
+    z = pc3V,
+    label = names(data_set_aux)
+  )
+  
+  graf <- bip %>% 
+    ggplot(aes(x=pc1c,y=pc2c,color=as_factor(grupo)))+
+    geom_point(aes(shape = as_factor(grupo), color = as_factor(grupo)), size = 3)+ theme_minimal() +
+    scale_shape_manual(values=16:(16+4-1))+
+    #annotate(geom="text", x=pc1V, y=pc2V, label=names(pc1V),
+    #            color="black",font=3)+
+    geom_vline(aes(xintercept=0),
+               color="black", size=1)+
+    geom_hline(aes(yintercept=0),
+               color="black", size=1)+
+    annotate(geom="segment",
+             x=rep(0,length(data_set_aux)),
+             xend=texto$x,
+             y=rep(0,length(data_set_aux)),
+             yend=texto$y,color="black",lwd=.5)+
+    geom_label(data=texto,aes(x=x,y=y,label=label),
+               color="black",angle=0,fontface="bold",size=4,fill="white")+
+    labs(x=paste("CP1 (",round(100*ve[1],2),"%)",sep=""),
+         y=paste("CP2 (",round(100*ve[2],2),"%)",sep=""),
+         color="",shape="")+
+    theme(legend.position = "top")
+  print(graf)
+  
+  print("==== Tabela da correlação dos atributos com cada PC ====")
+  ck<-sum(pca$sdev^2>=0.98)
+  tabelapca<-vector()
+  for( l in 1:ck) tabelapca<-cbind(tabelapca,mcor[,l])
+  colnames(tabelapca)<-paste(rep(c("PC"),ck),1:ck,sep="")
+  pcat<-round(tabelapca,3)
+  tabelapca<-tabelapca[order(abs(tabelapca[,1])),]
+  print(tabelapca)
+}
+```
+

@@ -355,31 +355,2415 @@ display: none;
 </div>
 
 
-<div id="r-markdown" class="section level2">
-<h2>R Markdown</h2>
-<p>This is an R Markdown document. Markdown is a simple formatting
-syntax for authoring HTML, PDF, and MS Word documents. For more details
-on using R Markdown see <a href="http://rmarkdown.rstudio.com" class="uri">http://rmarkdown.rstudio.com</a>.</p>
-<p>When you click the <strong>Knit</strong> button a document will be
-generated that includes both content as well as the output of any
-embedded R code chunks within the document. You can embed an R code
-chunk like this:</p>
-<pre class="r"><code>summary(cars)</code></pre>
-<pre><code>##      speed           dist       
-##  Min.   : 4.0   Min.   :  2.00  
-##  1st Qu.:12.0   1st Qu.: 26.00  
-##  Median :15.0   Median : 36.00  
-##  Mean   :15.4   Mean   : 42.98  
-##  3rd Qu.:19.0   3rd Qu.: 56.00  
-##  Max.   :25.0   Max.   :120.00</code></pre>
+<div id="carregando-pacotes" class="section level2">
+<h2>Carregando Pacotes</h2>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## Warning: package &#39;tidyverse&#39; was built under R version 4.4.0</code></pre>
+<pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 4.3.3</code></pre>
+<pre><code>## Warning: package &#39;tidyr&#39; was built under R version 4.3.3</code></pre>
+<pre><code>## Warning: package &#39;readr&#39; was built under R version 4.3.3</code></pre>
+<pre><code>## Warning: package &#39;purrr&#39; was built under R version 4.3.3</code></pre>
+<pre><code>## Warning: package &#39;dplyr&#39; was built under R version 4.3.3</code></pre>
+<pre><code>## Warning: package &#39;stringr&#39; was built under R version 4.3.3</code></pre>
+<pre><code>## Warning: package &#39;lubridate&#39; was built under R version 4.3.3</code></pre>
+<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.4     ✔ readr     2.1.5
+## ✔ forcats   1.0.0     ✔ stringr   1.5.1
+## ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+## ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
+## ✔ purrr     1.0.2     
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<pre class="r"><code>library(ExpDes.pt)</code></pre>
 </div>
-<div id="including-plots" class="section level2">
-<h2>Including Plots</h2>
-<p>You can also embed plots, for example:</p>
-<p><img src="data:image/png;base64,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" width="672" /></p>
-<p>Note that the <code>echo = FALSE</code> parameter was added to the
-code chunk to prevent printing of the R code that generated the
-plot.</p>
+<div id="carregando-dados" class="section level2">
+<h2>Carregando dados</h2>
+<pre class="r"><code>data_set &lt;- read_rds(&quot;../data/solo-macrofita&quot;)
+glimpse(data_set)</code></pre>
+<pre><code>## Rows: 50
+## Columns: 24
+## $ macrofita &lt;chr&gt; &quot;brasu&quot;, &quot;brasu&quot;, &quot;brasu&quot;, &quot;brasu&quot;, &quot;brasu&quot;, &quot;brasu&quot;, &quot;brasu…
+## $ dose_t_ha &lt;dbl&gt; 13.5, 13.5, 13.5, 13.5, 13.5, 27.0, 27.0, 27.0, 27.0, 27.0, …
+## $ repeticao &lt;dbl&gt; 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, …
+## $ mo        &lt;dbl&gt; 8, 7, 8, 7, 7, 10, 10, 9, 9, 9, 9, 10, 10, 8, 10, 8, 8, 8, 7…
+## $ p_h       &lt;dbl&gt; 5.8, 5.8, 5.9, 6.0, 6.0, 6.1, 6.0, 5.7, 6.1, 6.1, 6.1, 6.1, …
+## $ p         &lt;dbl&gt; 3, 4, 4, 3, 4, 4, 4, 3, 5, 4, 4, 3, 3, 3, 3, 8, 7, 7, 7, 10,…
+## $ k         &lt;dbl&gt; 1.01, 0.86, 5.64, 4.57, 4.71, 11.86, 11.95, 7.78, 9.33, 7.70…
+## $ ca        &lt;dbl&gt; 17.95, 19.95, 18.98, 15.81, 16.37, 21.79, 21.03, 17.19, 20.6…
+## $ mg        &lt;dbl&gt; 6.29, 6.90, 6.64, 5.57, 5.76, 7.50, 7.55, 6.14, 6.91, 5.93, …
+## $ al        &lt;dbl&gt; 0.28, 0.25, 0.19, 0.26, 0.20, 0.21, 0.22, 0.22, 0.20, 0.14, …
+## $ h_al      &lt;dbl&gt; 14, 15, 15, 15, 15, 15, 15, 17, 13, 14, 14, 14, 16, 16, 14, …
+## $ s         &lt;dbl&gt; 24, 26, 25, 20, 18, 45, 50, 30, 41, 36, 40, 45, 48, 35, 45, …
+## $ sb        &lt;dbl&gt; 25.25, 27.71, 31.26, 25.95, 26.84, 41.15, 40.53, 31.11, 36.8…
+## $ ctc       &lt;dbl&gt; 39.25, 42.71, 46.26, 40.95, 41.84, 56.15, 55.53, 48.11, 49.8…
+## $ v_percent &lt;dbl&gt; 64.33, 64.88, 67.57, 63.37, 64.15, 73.29, 72.99, 64.66, 73.9…
+## $ b         &lt;dbl&gt; 0.19, 0.15, 0.15, 0.16, 0.16, 0.16, 0.17, 0.16, 0.18, 0.20, …
+## $ cu        &lt;dbl&gt; 0.4, 0.4, 0.4, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, …
+## $ mn        &lt;dbl&gt; 3.6, 4.1, 3.6, 3.2, 3.2, 3.3, 3.5, 3.5, 3.7, 3.5, 3.8, 3.5, …
+## $ fe        &lt;dbl&gt; 10, 10, 9, 9, 9, 8, 8, 10, 10, 9, 10, 9, 9, 8, 8, 7, 8, 7, 7…
+## $ zn        &lt;dbl&gt; 0.4, 0.4, 0.4, 0.3, 0.3, 0.5, 0.5, 0.4, 0.4, 0.4, 0.5, 0.5, …
+## $ cr        &lt;dbl&gt; 0.08, 0.07, 0.10, 0.08, 0.08, 0.13, 0.09, 0.11, 0.11, 0.12, …
+## $ ni        &lt;dbl&gt; 0.16, 0.13, 0.21, 0.13, 0.18, 0.16, 0.20, 0.12, 0.18, 0.20, …
+## $ cd        &lt;dbl&gt; 0.02, 0.00, 0.01, 0.02, 0.02, 0.02, 0.02, 0.03, 0.02, 0.02, …
+## $ pb        &lt;dbl&gt; 0.59, 0.60, 0.61, 0.49, 0.49, 0.60, 0.68, 0.42, 0.45, 0.44, …</code></pre>
+<pre class="r"><code>data_set_aux &lt;- data_set %&gt;% 
+  filter(macrofita != &quot;testem&quot;)
+planta &lt;- data_set_aux %&gt;% 
+  pull(macrofita)
+dose &lt;- data_set_aux %&gt;% 
+  pull(dose_t_ha)
+rep &lt;- data_set_aux %&gt;% 
+  pull(repeticao)</code></pre>
+<pre class="r"><code>variaveis &lt;- data_set %&gt;% 
+  select(mo:pb) %&gt;% 
+  names()
+for(i in seq_along(variaveis)){
+  print(&quot;##########################################&quot;)
+  print(paste(&quot;ANOVA para: &quot;,variaveis[i]))
+  print(&quot;##########################################&quot;)
+  data_set %&gt;% 
+    select(variaveis[i])
+  
+  respad &lt;- data_set %&gt;% 
+    filter(macrofita == &quot;testem&quot;) %&gt;%
+    select(variaveis[i]) %&gt;% 
+    pull(variaveis[i])
+  resp &lt;- data_set_aux %&gt;% 
+    select(variaveis[i]) %&gt;% 
+    pull(variaveis[i])
+  fat2.ad.dic(planta,dose,rep,resp,respad,
+              fac.names = c(&quot;Planta&quot;,&quot;Dose&quot;))
+}</code></pre>
+<pre><code>## [1] &quot;##########################################&quot;
+## [1] &quot;ANOVA para:  mo&quot;
+## [1] &quot;##########################################&quot;
+## ------------------------------------------------------------------------
+## Legenda:
+## FATOR 1:  Planta 
+## FATOR 2:  Dose 
+## ------------------------------------------------------------------------
+## 
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                GL        SQ       QM     Fc  Pr&gt;Fc
+## Planta          2  43.24444 21.62222 3.3523 0.0451
+## Dose            2  80.31111 40.15556 6.2257 0.0044
+## Planta*Dose     4  26.08889  6.52222 1.0112 0.4132
+## Ad vs Fatorial  1  38.13556 38.13556 5.9125 0.0196
+## Residuo        40 258.00000     6.45              
+## Total          49 445.78000                       
+## ------------------------------------------------------------------------
+## CV = 26.4 %
+## 
+## ------------------------------------------------------------------------
+## Teste de normalidade dos residuos (Shapiro-Wilk)
+## valor-p:  5.459953e-12 
+## ATENCAO: a 5% de significancia, os residuos nao podem ser considerados normais!
+## ------------------------------------------------------------------------
+## Contraste do tratamento adicional com o fatorial
+## ------------------------------------------------------------------------
+##             Medias  
+## Adicional 7.000000 a
+## Fatorial  9.911111 b
+## ------------------------------------------------------------------------
+## 
+## Interacao nao significativa: analisando os efeitos simples
+## ------------------------------------------------------------------------
+## Planta
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     eiccr   11.13333 
+## ab    pisst   9.866667 
+##  b    brasu   8.733333 
+## ------------------------------------------------------------------------
+## 
+## Dose
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     40      11.6 
+## ab    27      9.8 
+##  b    13.5    8.333333 
+## ------------------------------------------------------------------------
+## 
+## [1] &quot;##########################################&quot;
+## [1] &quot;ANOVA para:  p_h&quot;
+## [1] &quot;##########################################&quot;
+## ------------------------------------------------------------------------
+## Legenda:
+## FATOR 1:  Planta 
+## FATOR 2:  Dose 
+## ------------------------------------------------------------------------
+## 
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                GL      SQ      QM       Fc  Pr&gt;Fc
+## Planta          2 0.88044 0.44022  29.9471      0
+## Dose            2 1.28844 0.64422  43.8246      0
+## Planta*Dose     4 0.32756 0.08189   5.5707 0.0012
+## Ad vs Fatorial  1 2.27556 2.27556 154.7997      0
+## Residuo        40 0.58800  0.0147                
+## Total          49 5.36000                        
+## ------------------------------------------------------------------------
+## CV = 1.99 %
+## 
+## ------------------------------------------------------------------------
+## Teste de normalidade dos residuos (Shapiro-Wilk)
+## valor-p:  0.3614378 
+## De acordo com o teste de Shapiro-Wilk a 5% de significancia, os residuos podem ser considerados normais.
+## ------------------------------------------------------------------------
+## 
+## Contraste do tratamento adicional com o fatorial
+## ------------------------------------------------------------------------
+##             Medias  
+## Adicional 5.460000 a
+## Fatorial  6.171111 b
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+## Interacao significativa: desdobrando a interacao
+## ------------------------------------------------------------------------
+## 
+## Desdobrando  Planta  dentro de cada nivel de  Dose 
+## ------------------------------------------------------------------------
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                  GL      SQ      QM       Fc  Pr&gt;Fc
+## Dose              2 1.28844 0.64422  43.8246      0
+## Planta:Dose 13.5  2 0.00933 0.00467   0.3175 0.7298
+## Planta:Dose 27    2 0.54933 0.27467  18.6848      0
+## Planta:Dose 40    2 0.64933 0.32467  22.0862      0
+## Ad vs Fatorial    1 2.27556 2.27556 154.7997      0
+## Residuo          40 0.58800  0.0147                
+## Total            49 5.36000                        
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+##  Planta  dentro do nivel  13.5  de  Dose 
+## 
+## De acordo com o teste F, as medias desse fator sao estatisticamente iguais.
+## ------------------------------------------------------------------------
+##   Niveis Medias
+## 1  brasu   5.90
+## 2  eiccr   5.94
+## 3  pisst   5.96
+## ------------------------------------------------------------------------
+## 
+## 
+##  Planta  dentro do nivel  27  de  Dose 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     eiccr   6.44 
+## a     pisst   6.36 
+##  b    brasu   6 
+## ------------------------------------------------------------------------
+## 
+## 
+##  Planta  dentro do nivel  40  de  Dose 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     pisst   6.48 
+## a     eiccr   6.44 
+##  b    brasu   6.02 
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+## Desdobrando  Dose  dentro de cada nivel de  Planta 
+## ------------------------------------------------------------------------
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                   GL      SQ      QM       Fc Pr&gt;Fc
+## Planta             2 0.88044 0.44022  29.9471     0
+## Dose:Planta brasu  2 0.04133 0.02067   1.4059 0.257
+## Dose:Planta eiccr  2 0.83333 0.41667  28.3447     0
+## Dose:Planta pisst  2 0.74133 0.37067  25.2154     0
+## Ad vs Fatorial     1 2.27556 2.27556 154.7997     0
+## Residuo           40 0.58800  0.0147               
+## Total             49 5.36000                       
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+##  Dose  dentro do nivel  brasu  de  Planta 
+## 
+## De acordo com o teste F, as medias desse fator sao estatisticamente iguais.
+## ------------------------------------------------------------------------
+##   Niveis Medias
+## 1   13.5   5.90
+## 2     27   6.00
+## 3     40   6.02
+## ------------------------------------------------------------------------
+## 
+## 
+##  Dose  dentro do nivel  eiccr  de  Planta 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     27      6.44 
+## a     40      6.44 
+##  b    13.5    5.94 
+## ------------------------------------------------------------------------
+## 
+## 
+##  Dose  dentro do nivel  pisst  de  Planta 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     40      6.48 
+## a     27      6.36 
+##  b    13.5    5.96 
+## ------------------------------------------------------------------------
+## [1] &quot;##########################################&quot;
+## [1] &quot;ANOVA para:  p&quot;
+## [1] &quot;##########################################&quot;
+## ------------------------------------------------------------------------
+## Legenda:
+## FATOR 1:  Planta 
+## FATOR 2:  Dose 
+## ------------------------------------------------------------------------
+## 
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                GL         SQ        QM       Fc Pr&gt;Fc
+## Planta          2  881.11111 440.55556 101.2771     0
+## Dose            2  141.11111  70.55556  16.2197     0
+## Planta*Dose     4  236.35556  59.08889  13.5837     0
+## Ad vs Fatorial  1   65.74222  65.74222  15.1132 4e-04
+## Residuo        40  174.00000      4.35               
+## Total          49 1498.32000                         
+## ------------------------------------------------------------------------
+## CV = 28.03 %
+## 
+## ------------------------------------------------------------------------
+## Teste de normalidade dos residuos (Shapiro-Wilk)
+## valor-p:  2.23317e-09 
+## ATENCAO: a 5% de significancia, os residuos nao podem ser considerados normais!
+## ------------------------------------------------------------------------
+## Contraste do tratamento adicional com o fatorial
+## ------------------------------------------------------------------------
+##             Medias  
+## Adicional 4.000000 a
+## Fatorial  7.822222 b
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+## Interacao significativa: desdobrando a interacao
+## ------------------------------------------------------------------------
+## 
+## Desdobrando  Planta  dentro de cada nivel de  Dose 
+## ------------------------------------------------------------------------
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                  GL         SQ        QM      Fc  Pr&gt;Fc
+## Dose              2  141.11111  70.55556 16.2197      0
+## Planta:Dose 13.5  2   44.40000      22.2  5.1034 0.0106
+## Planta:Dose 27    2  284.13333 142.06667  32.659      0
+## Planta:Dose 40    2  788.93333 394.46667  90.682      0
+## Ad vs Fatorial    1   65.74222  65.74222 15.1132  4e-04
+## Residuo          40  174.00000      4.35               
+## Total            49 1498.32000                         
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+##  Planta  dentro do nivel  13.5  de  Dose 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     pisst   7.8 
+## ab    eiccr   5.4 
+##  b    brasu   3.6 
+## ------------------------------------------------------------------------
+## 
+## 
+##  Planta  dentro do nivel  27  de  Dose 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     pisst   14 
+##  b    eiccr   5.8 
+##  b    brasu   4 
+## ------------------------------------------------------------------------
+## 
+## 
+##  Planta  dentro do nivel  40  de  Dose 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     pisst   20 
+##  b    eiccr   6.6 
+##   c   brasu   3.2 
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+## Desdobrando  Dose  dentro de cada nivel de  Planta 
+## ------------------------------------------------------------------------
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                   GL         SQ        QM       Fc  Pr&gt;Fc
+## Planta             2  881.11111 440.55556 101.2771      0
+## Dose:Planta brasu  2    1.60000       0.8   0.1839 0.8327
+## Dose:Planta eiccr  2    3.73333   1.86667   0.4291  0.654
+## Dose:Planta pisst  2  372.13333 186.06667  42.7739      0
+## Ad vs Fatorial     1   65.74222  65.74222  15.1132  4e-04
+## Residuo           40  174.00000      4.35                
+## Total             49 1498.32000                          
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+##  Dose  dentro do nivel  brasu  de  Planta 
+## 
+## De acordo com o teste F, as medias desse fator sao estatisticamente iguais.
+## ------------------------------------------------------------------------
+##   Niveis Medias
+## 1   13.5    3.6
+## 2     27    4.0
+## 3     40    3.2
+## ------------------------------------------------------------------------
+## 
+## 
+##  Dose  dentro do nivel  eiccr  de  Planta 
+## 
+## De acordo com o teste F, as medias desse fator sao estatisticamente iguais.
+## ------------------------------------------------------------------------
+##   Niveis Medias
+## 1   13.5    5.4
+## 2     27    5.8
+## 3     40    6.6
+## ------------------------------------------------------------------------
+## 
+## 
+##  Dose  dentro do nivel  pisst  de  Planta 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     40      20 
+##  b    27      14 
+##   c   13.5    7.8 
+## ------------------------------------------------------------------------
+## [1] &quot;##########################################&quot;
+## [1] &quot;ANOVA para:  k&quot;
+## [1] &quot;##########################################&quot;
+## ------------------------------------------------------------------------
+## Legenda:
+## FATOR 1:  Planta 
+## FATOR 2:  Dose 
+## ------------------------------------------------------------------------
+## 
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                GL        SQ        QM       Fc Pr&gt;Fc
+## Planta          2  769.3119 384.65593 160.5442     0
+## Dose            2  428.9268  214.4634  89.5108     0
+## Planta*Dose     4  160.8732   40.2183  16.7859     0
+## Ad vs Fatorial  1  311.6173 311.61729   130.06     0
+## Residuo        40   95.8380   2.39595               
+## Total          49 1766.5671                         
+## ------------------------------------------------------------------------
+## CV = 16.78 %
+## 
+## ------------------------------------------------------------------------
+## Teste de normalidade dos residuos (Shapiro-Wilk)
+## valor-p:  0.1203717 
+## De acordo com o teste de Shapiro-Wilk a 5% de significancia, os residuos podem ser considerados normais.
+## ------------------------------------------------------------------------
+## 
+## Contraste do tratamento adicional com o fatorial
+## ------------------------------------------------------------------------
+##             Medias  
+## Adicional  1.73400 a
+## Fatorial  10.05556 b
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+## Interacao significativa: desdobrando a interacao
+## ------------------------------------------------------------------------
+## 
+## Desdobrando  Planta  dentro de cada nivel de  Dose 
+## ------------------------------------------------------------------------
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                  GL        SQ        QM       Fc Pr&gt;Fc
+## Dose              2  428.9268  214.4634  89.5108     0
+## Planta:Dose 13.5  2  106.4009  53.20045  22.2043     0
+## Planta:Dose 27    2  189.7916  94.89579  39.6067     0
+## Planta:Dose 40    2  633.9926 316.99629 132.3051     0
+## Ad vs Fatorial    1  311.6173 311.61729   130.06     0
+## Residuo          40   95.8380   2.39595               
+## Total            49 1766.5671                         
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+##  Planta  dentro do nivel  13.5  de  Dose 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     pisst   9.69 
+##  b    eiccr   5.164 
+##  b    brasu   3.358 
+## ------------------------------------------------------------------------
+## 
+## 
+##  Planta  dentro do nivel  27  de  Dose 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     pisst   15.196 
+##  b    brasu   9.724 
+##   c   eiccr   6.588 
+## ------------------------------------------------------------------------
+## 
+## 
+##  Planta  dentro do nivel  40  de  Dose 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     pisst   22.742 
+##  b    brasu   9.81 
+##  b    eiccr   8.228 
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+## Desdobrando  Dose  dentro de cada nivel de  Planta 
+## ------------------------------------------------------------------------
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                   GL         SQ        QM       Fc  Pr&gt;Fc
+## Planta             2  769.31186 384.65593 160.5442      0
+## Dose:Planta brasu  2  136.93609  68.46805  28.5766      0
+## Dose:Planta eiccr  2   23.50912  11.75456    4.906 0.0124
+## Dose:Planta pisst  2  429.35476 214.67738  89.6001      0
+## Ad vs Fatorial     1  311.61729 311.61729   130.06      0
+## Residuo           40   95.83800   2.39595                
+## Total             49 1766.56712                          
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+##  Dose  dentro do nivel  brasu  de  Planta 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     40      9.81 
+## a     27      9.724 
+##  b    13.5    3.358 
+## ------------------------------------------------------------------------
+## 
+## 
+##  Dose  dentro do nivel  eiccr  de  Planta 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     40      8.228 
+## ab    27      6.588 
+##  b    13.5    5.164 
+## ------------------------------------------------------------------------
+## 
+## 
+##  Dose  dentro do nivel  pisst  de  Planta 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     40      22.742 
+##  b    27      15.196 
+##   c   13.5    9.69 
+## ------------------------------------------------------------------------
+## [1] &quot;##########################################&quot;
+## [1] &quot;ANOVA para:  ca&quot;
+## [1] &quot;##########################################&quot;
+## ------------------------------------------------------------------------
+## Legenda:
+## FATOR 1:  Planta 
+## FATOR 2:  Dose 
+## ------------------------------------------------------------------------
+## 
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                GL        SQ         QM       Fc Pr&gt;Fc
+## Planta          2 2816.2773 1408.13864 313.8764     0
+## Dose            2  381.6094  190.80469  42.5307     0
+## Planta*Dose     4  299.4165   74.85412  16.6851     0
+## Ad vs Fatorial  1  403.2232   403.2232  89.8791     0
+## Residuo        40  179.4514    4.48628               
+## Total          49 4079.9777                          
+## ------------------------------------------------------------------------
+## CV = 8.24 %
+## 
+## ------------------------------------------------------------------------
+## Teste de normalidade dos residuos (Shapiro-Wilk)
+## valor-p:  0.5599017 
+## De acordo com o teste de Shapiro-Wilk a 5% de significancia, os residuos podem ser considerados normais.
+## ------------------------------------------------------------------------
+## 
+## Contraste do tratamento adicional com o fatorial
+## ------------------------------------------------------------------------
+##           Medias  
+## Adicional 17.170 a
+## Fatorial  26.636 b
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+## Interacao significativa: desdobrando a interacao
+## ------------------------------------------------------------------------
+## 
+## Desdobrando  Planta  dentro de cada nivel de  Dose 
+## ------------------------------------------------------------------------
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                  GL        SQ        QM       Fc Pr&gt;Fc
+## Dose              2  381.6094 190.80469  42.5307     0
+## Planta:Dose 13.5  2  351.0598 175.52993  39.1259     0
+## Planta:Dose 27    2  899.9336 449.96678 100.2983     0
+## Planta:Dose 40    2 1864.7003 932.35017 207.8224     0
+## Ad vs Fatorial    1  403.2232  403.2232  89.8791     0
+## Residuo          40  179.4514   4.48628               
+## Total            49 4079.9777                         
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+##  Planta  dentro do nivel  13.5  de  Dose 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     pisst   29.316 
+##  b    eiccr   21.102 
+##   c   brasu   17.812 
+## ------------------------------------------------------------------------
+## 
+## 
+##  Planta  dentro do nivel  27  de  Dose 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     pisst   37.942 
+##  b    eiccr   24.788 
+##   c   brasu   19.524 
+## ------------------------------------------------------------------------
+## 
+## 
+##  Planta  dentro do nivel  40  de  Dose 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     pisst   44.91 
+##  b    eiccr   25.91 
+##   c   brasu   18.42 
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+## Desdobrando  Dose  dentro de cada nivel de  Planta 
+## ------------------------------------------------------------------------
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                   GL         SQ         QM       Fc  Pr&gt;Fc
+## Planta             2 2816.27728 1408.13864 313.8764      0
+## Dose:Planta brasu  2    7.53237    3.76619   0.8395 0.4394
+## Dose:Planta eiccr  2   63.27057   31.63529   7.0516 0.0024
+## Dose:Planta pisst  2  610.22289  305.11145  68.0098      0
+## Ad vs Fatorial     1  403.22320   403.2232  89.8791      0
+## Residuo           40  179.45136    4.48628                
+## Total             49 4079.97768                           
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+##  Dose  dentro do nivel  brasu  de  Planta 
+## 
+## De acordo com o teste F, as medias desse fator sao estatisticamente iguais.
+## ------------------------------------------------------------------------
+##   Niveis Medias
+## 1   13.5 17.812
+## 2     27 19.524
+## 3     40 18.420
+## ------------------------------------------------------------------------
+## 
+## 
+##  Dose  dentro do nivel  eiccr  de  Planta 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     40      25.91 
+## a     27      24.788 
+##  b    13.5    21.102 
+## ------------------------------------------------------------------------
+## 
+## 
+##  Dose  dentro do nivel  pisst  de  Planta 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     40      44.91 
+##  b    27      37.942 
+##   c   13.5    29.316 
+## ------------------------------------------------------------------------
+## [1] &quot;##########################################&quot;
+## [1] &quot;ANOVA para:  mg&quot;
+## [1] &quot;##########################################&quot;
+## ------------------------------------------------------------------------
+## Legenda:
+## FATOR 1:  Planta 
+## FATOR 2:  Dose 
+## ------------------------------------------------------------------------
+## 
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                GL        SQ       QM       Fc Pr&gt;Fc
+## Planta          2 131.50320  65.7516 133.5337     0
+## Dose            2  30.97970 15.48985   31.458     0
+## Planta*Dose     4  23.12994  5.78249  11.7435     0
+## Ad vs Fatorial  1  20.97792 20.97792  42.6037     0
+## Residuo        40  19.69588   0.4924               
+## Total          49 226.28665                        
+## ------------------------------------------------------------------------
+## CV = 8.4 %
+## 
+## ------------------------------------------------------------------------
+## Teste de normalidade dos residuos (Shapiro-Wilk)
+## valor-p:  0.7960043 
+## De acordo com o teste de Shapiro-Wilk a 5% de significancia, os residuos podem ser considerados normais.
+## ------------------------------------------------------------------------
+## 
+## Contraste do tratamento adicional com o fatorial
+## ------------------------------------------------------------------------
+##             Medias  
+## Adicional 6.412000 a
+## Fatorial  8.571111 b
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+## Interacao significativa: desdobrando a interacao
+## ------------------------------------------------------------------------
+## 
+## Desdobrando  Planta  dentro de cada nivel de  Dose 
+## ------------------------------------------------------------------------
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                  GL        SQ       QM       Fc Pr&gt;Fc
+## Dose              2  30.97970 15.48985   31.458     0
+## Planta:Dose 13.5  2  16.93605  8.46803  17.1976     0
+## Planta:Dose 27    2  28.98444 14.49222   29.432     0
+## Planta:Dose 40    2 108.71265 54.35633 110.3913     0
+## Ad vs Fatorial    1  20.97792 20.97792  42.6037     0
+## Residuo          40  19.69588   0.4924               
+## Total            49 226.28665                        
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+##  Planta  dentro do nivel  13.5  de  Dose 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     pisst   8.832 
+##  b    eiccr   7.636 
+##   c   brasu   6.232 
+## ------------------------------------------------------------------------
+## 
+## 
+##  Planta  dentro do nivel  27  de  Dose 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     pisst   10.208 
+##  b    eiccr   8.63 
+##   c   brasu   6.806 
+## ------------------------------------------------------------------------
+## 
+## 
+##  Planta  dentro do nivel  40  de  Dose 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     pisst   13.094 
+##  b    eiccr   9.158 
+##   c   brasu   6.544 
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+## Desdobrando  Dose  dentro de cada nivel de  Planta 
+## ------------------------------------------------------------------------
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                   GL        SQ       QM       Fc  Pr&gt;Fc
+## Planta             2 131.50320  65.7516 133.5337      0
+## Dose:Planta brasu  2   0.82577  0.41289   0.8385 0.4398
+## Dose:Planta eiccr  2   5.97217  2.98609   6.0644  0.005
+## Dose:Planta pisst  2  47.31169 23.65585  48.0422      0
+## Ad vs Fatorial     1  20.97792 20.97792  42.6037      0
+## Residuo           40  19.69588   0.4924                
+## Total             49 226.28665                         
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+##  Dose  dentro do nivel  brasu  de  Planta 
+## 
+## De acordo com o teste F, as medias desse fator sao estatisticamente iguais.
+## ------------------------------------------------------------------------
+##   Niveis Medias
+## 1   13.5  6.232
+## 2     27  6.806
+## 3     40  6.544
+## ------------------------------------------------------------------------
+## 
+## 
+##  Dose  dentro do nivel  eiccr  de  Planta 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     40      9.158 
+## ab    27      8.63 
+##  b    13.5    7.636 
+## ------------------------------------------------------------------------
+## 
+## 
+##  Dose  dentro do nivel  pisst  de  Planta 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     40      13.094 
+##  b    27      10.208 
+##   c   13.5    8.832 
+## ------------------------------------------------------------------------
+## [1] &quot;##########################################&quot;
+## [1] &quot;ANOVA para:  al&quot;
+## [1] &quot;##########################################&quot;
+## ------------------------------------------------------------------------
+## Legenda:
+## FATOR 1:  Planta 
+## FATOR 2:  Dose 
+## ------------------------------------------------------------------------
+## 
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                GL      SQ      QM     Fc  Pr&gt;Fc
+## Planta          2 0.02323 0.01162 8.4415  9e-04
+## Dose            2 0.00092 0.00046 0.3359 0.7167
+## Planta*Dose     4 0.02836 0.00709 5.1518 0.0019
+## Ad vs Fatorial  1 0.00060   6e-04 0.4367 0.5125
+## Residuo        40 0.05504 0.00138              
+## Total          49 0.10815                      
+## ------------------------------------------------------------------------
+## CV = 19.9 %
+## 
+## ------------------------------------------------------------------------
+## Teste de normalidade dos residuos (Shapiro-Wilk)
+## valor-p:  0.8690052 
+## De acordo com o teste de Shapiro-Wilk a 5% de significancia, os residuos podem ser considerados normais.
+## ------------------------------------------------------------------------
+## 
+## Contraste do tratamento adicional com o fatorial
+## ------------------------------------------------------------------------
+## De acordo com o teste F, as medias dos dois grupos sao estatisticamente iguais.
+##              Medias
+## Adicional 0.1760000
+## Fatorial  0.1875556
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+## Interacao significativa: desdobrando a interacao
+## ------------------------------------------------------------------------
+## 
+## Desdobrando  Planta  dentro de cada nivel de  Dose 
+## ------------------------------------------------------------------------
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                  GL      SQ      QM     Fc  Pr&gt;Fc
+## Dose              2 0.00092 0.00046 0.3359 0.7167
+## Planta:Dose 13.5  2 0.01648 0.00824 5.9884 0.0053
+## Planta:Dose 27    2 0.01169 0.00585  4.249 0.0212
+## Planta:Dose 40    2 0.02341 0.01171 8.5078  8e-04
+## Ad vs Fatorial    1 0.00060   6e-04 0.4367 0.5125
+## Residuo          40 0.05504 0.00138              
+## Total            49 0.10815                      
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+##  Planta  dentro do nivel  13.5  de  Dose 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     brasu   0.236 
+## ab    eiccr   0.184 
+##  b    pisst   0.156 
+## ------------------------------------------------------------------------
+## 
+## 
+##  Planta  dentro do nivel  27  de  Dose 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     eiccr   0.204 
+## ab    brasu   0.198 
+##  b    pisst   0.142 
+## ------------------------------------------------------------------------
+## 
+## 
+##  Planta  dentro do nivel  40  de  Dose 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     eiccr   0.244 
+##  b    pisst   0.172 
+##  b    brasu   0.152 
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+## Desdobrando  Dose  dentro de cada nivel de  Planta 
+## ------------------------------------------------------------------------
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                   GL      SQ      QM     Fc  Pr&gt;Fc
+## Planta             2 0.02323 0.01162 8.4415  9e-04
+## Dose:Planta brasu  2 0.01769 0.00885 6.4293 0.0038
+## Dose:Planta eiccr  2 0.00933 0.00467 3.3915 0.0436
+## Dose:Planta pisst  2 0.00225 0.00113 0.8188 0.4482
+## Ad vs Fatorial     1 0.00060   6e-04 0.4367 0.5125
+## Residuo           40 0.05504 0.00138              
+## Total             49 0.10815                      
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+##  Dose  dentro do nivel  brasu  de  Planta 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     13.5    0.236 
+## ab    27      0.198 
+##  b    40      0.152 
+## ------------------------------------------------------------------------
+## 
+## 
+##  Dose  dentro do nivel  eiccr  de  Planta 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     40      0.244 
+## ab    27      0.204 
+##  b    13.5    0.184 
+## ------------------------------------------------------------------------
+## 
+## 
+##  Dose  dentro do nivel  pisst  de  Planta 
+## 
+## De acordo com o teste F, as medias desse fator sao estatisticamente iguais.
+## ------------------------------------------------------------------------
+##   Niveis Medias
+## 1   13.5  0.156
+## 2     27  0.142
+## 3     40  0.172
+## ------------------------------------------------------------------------
+## [1] &quot;##########################################&quot;
+## [1] &quot;ANOVA para:  h_al&quot;
+## [1] &quot;##########################################&quot;
+## ------------------------------------------------------------------------
+## Legenda:
+## FATOR 1:  Planta 
+## FATOR 2:  Dose 
+## ------------------------------------------------------------------------
+## 
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                GL        SQ       QM      Fc  Pr&gt;Fc
+## Planta          2   9.91111  4.95556  5.3865 0.0085
+## Dose            2  15.51111  7.75556    8.43  9e-04
+## Planta*Dose     4  16.35556  4.08889  4.4444 0.0046
+## Ad vs Fatorial  1  35.84222 35.84222 38.9589      0
+## Residuo        40  36.80000     0.92               
+## Total          49 114.42000                        
+## ------------------------------------------------------------------------
+## CV = 6.63 %
+## 
+## ------------------------------------------------------------------------
+## Teste de normalidade dos residuos (Shapiro-Wilk)
+## valor-p:  0.2824569 
+## De acordo com o teste de Shapiro-Wilk a 5% de significancia, os residuos podem ser considerados normais.
+## ------------------------------------------------------------------------
+## 
+## Contraste do tratamento adicional com o fatorial
+## ------------------------------------------------------------------------
+##             Medias  
+## Adicional 17.00000 a
+## Fatorial  14.17778 b
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+## Interacao significativa: desdobrando a interacao
+## ------------------------------------------------------------------------
+## 
+## Desdobrando  Planta  dentro de cada nivel de  Dose 
+## ------------------------------------------------------------------------
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                  GL        SQ       QM      Fc  Pr&gt;Fc
+## Dose              2  15.51111  7.75556    8.43  9e-04
+## Planta:Dose 13.5  2   1.20000      0.6  0.6522 0.5264
+## Planta:Dose 27    2  12.13333  6.06667  6.5942 0.0033
+## Planta:Dose 40    2  12.93333  6.46667   7.029 0.0024
+## Ad vs Fatorial    1  35.84222 35.84222 38.9589      0
+## Residuo          40  36.80000     0.92               
+## Total            49 114.42000                        
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+##  Planta  dentro do nivel  13.5  de  Dose 
+## 
+## De acordo com o teste F, as medias desse fator sao estatisticamente iguais.
+## ------------------------------------------------------------------------
+##   Niveis Medias
+## 1  brasu   14.8
+## 2  eiccr   15.4
+## 3  pisst   14.8
+## ------------------------------------------------------------------------
+## 
+## 
+##  Planta  dentro do nivel  27  de  Dose 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     brasu   14.8 
+## ab    pisst   13.6 
+##  b    eiccr   12.6 
+## ------------------------------------------------------------------------
+## 
+## 
+##  Planta  dentro do nivel  40  de  Dose 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     brasu   14.8 
+## a     eiccr   14.2 
+##  b    pisst   12.6 
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+## Desdobrando  Dose  dentro de cada nivel de  Planta 
+## ------------------------------------------------------------------------
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                   GL        SQ       QM      Fc  Pr&gt;Fc
+## Planta             2   9.91111  4.95556  5.3865 0.0085
+## Dose:Planta brasu  2   0.00000        0       0      1
+## Dose:Planta eiccr  2  19.73333  9.86667 10.7246  2e-04
+## Dose:Planta pisst  2  12.13333  6.06667  6.5942 0.0033
+## Ad vs Fatorial     1  35.84222 35.84222 38.9589      0
+## Residuo           40  36.80000     0.92               
+## Total             49 114.42000                        
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+##  Dose  dentro do nivel  brasu  de  Planta 
+## 
+## De acordo com o teste F, as medias desse fator sao estatisticamente iguais.
+## ------------------------------------------------------------------------
+##   Niveis Medias
+## 1   13.5   14.8
+## 2     27   14.8
+## 3     40   14.8
+## ------------------------------------------------------------------------
+## 
+## 
+##  Dose  dentro do nivel  eiccr  de  Planta 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     13.5    15.4 
+## a     40      14.2 
+##  b    27      12.6 
+## ------------------------------------------------------------------------
+## 
+## 
+##  Dose  dentro do nivel  pisst  de  Planta 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     13.5    14.8 
+## ab    27      13.6 
+##  b    40      12.6 
+## ------------------------------------------------------------------------
+## [1] &quot;##########################################&quot;
+## [1] &quot;ANOVA para:  s&quot;
+## [1] &quot;##########################################&quot;
+## ------------------------------------------------------------------------
+## Legenda:
+## FATOR 1:  Planta 
+## FATOR 2:  Dose 
+## ------------------------------------------------------------------------
+## 
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                GL        SQ         QM       Fc Pr&gt;Fc
+## Planta          2 1643.5111  821.75556  47.5828     0
+## Dose            2 2650.9778 1325.48889  76.7509     0
+## Planta*Dose     4  402.4889  100.62222   5.8264 9e-04
+## Ad vs Fatorial  1 1951.0422 1951.04222 112.9729     0
+## Residuo        40  690.8000      17.27               
+## Total          49 7338.8200                          
+## ------------------------------------------------------------------------
+## CV = 12.62 %
+## 
+## ------------------------------------------------------------------------
+## Teste de normalidade dos residuos (Shapiro-Wilk)
+## valor-p:  0.408695 
+## De acordo com o teste de Shapiro-Wilk a 5% de significancia, os residuos podem ser considerados normais.
+## ------------------------------------------------------------------------
+## 
+## Contraste do tratamento adicional com o fatorial
+## ------------------------------------------------------------------------
+##             Medias  
+## Adicional 14.20000 a
+## Fatorial  35.02222 b
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+## Interacao significativa: desdobrando a interacao
+## ------------------------------------------------------------------------
+## 
+## Desdobrando  Planta  dentro de cada nivel de  Dose 
+## ------------------------------------------------------------------------
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                  GL        SQ         QM       Fc Pr&gt;Fc
+## Dose              2 2650.9778 1325.48889  76.7509     0
+## Planta:Dose 13.5  2  560.5333  280.26667  16.2285     0
+## Planta:Dose 27    2  537.7333  268.86667  15.5684     0
+## Planta:Dose 40    2  947.7333  473.86667  27.4387     0
+## Ad vs Fatorial    1 1951.0422 1951.04222 112.9729     0
+## Residuo          40  690.8000      17.27               
+## Total            49 7338.8200                          
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+##  Planta  dentro do nivel  13.5  de  Dose 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     pisst   34.2 
+##  b    brasu   22.6 
+##  b    eiccr   20.2 
+## ------------------------------------------------------------------------
+## 
+## 
+##  Planta  dentro do nivel  27  de  Dose 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     brasu   40.4 
+## a     pisst   37.8 
+##  b    eiccr   26.6 
+## ------------------------------------------------------------------------
+## 
+## 
+##  Planta  dentro do nivel  40  de  Dose 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     pisst   55 
+##  b    brasu   42.6 
+##   c   eiccr   35.8 
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+## Desdobrando  Dose  dentro de cada nivel de  Planta 
+## ------------------------------------------------------------------------
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                   GL        SQ         QM       Fc Pr&gt;Fc
+## Planta             2 1643.5111  821.75556  47.5828     0
+## Dose:Planta brasu  2 1202.8000      601.4  34.8234     0
+## Dose:Planta eiccr  2  614.9333  307.46667  17.8035     0
+## Dose:Planta pisst  2 1235.7333  617.86667  35.7769     0
+## Ad vs Fatorial     1 1951.0422 1951.04222 112.9729     0
+## Residuo           40  690.8000      17.27               
+## Total             49 7338.8200                          
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+##  Dose  dentro do nivel  brasu  de  Planta 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     40      42.6 
+## a     27      40.4 
+##  b    13.5    22.6 
+## ------------------------------------------------------------------------
+## 
+## 
+##  Dose  dentro do nivel  eiccr  de  Planta 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     40      35.8 
+##  b    27      26.6 
+##   c   13.5    20.2 
+## ------------------------------------------------------------------------
+## 
+## 
+##  Dose  dentro do nivel  pisst  de  Planta 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     40      55 
+##  b    27      37.8 
+##  b    13.5    34.2 
+## ------------------------------------------------------------------------
+## [1] &quot;##########################################&quot;
+## [1] &quot;ANOVA para:  sb&quot;
+## [1] &quot;##########################################&quot;
+## ------------------------------------------------------------------------
+## Legenda:
+## FATOR 1:  Planta 
+## FATOR 2:  Dose 
+## ------------------------------------------------------------------------
+## 
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                GL         SQ         QM       Fc Pr&gt;Fc
+## Planta          2  8179.8210 4089.91049 296.8633     0
+## Dose            2  2088.9800 1044.49002  75.8136     0
+## Planta*Dose     4  1066.6309  266.65773  19.3552     0
+## Ad vs Fatorial  1  1790.4128  1790.4128 129.9559     0
+## Residuo        40   551.0833   13.77708               
+## Total          49 13676.9280                          
+## ------------------------------------------------------------------------
+## CV = 8.58 %
+## 
+## ------------------------------------------------------------------------
+## Teste de normalidade dos residuos (Shapiro-Wilk)
+## valor-p:  0.4735839 
+## De acordo com o teste de Shapiro-Wilk a 5% de significancia, os residuos podem ser considerados normais.
+## ------------------------------------------------------------------------
+## 
+## Contraste do tratamento adicional com o fatorial
+## ------------------------------------------------------------------------
+##             Medias  
+## Adicional 25.31600 a
+## Fatorial  45.26267 b
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+## Interacao significativa: desdobrando a interacao
+## ------------------------------------------------------------------------
+## 
+## Desdobrando  Planta  dentro de cada nivel de  Dose 
+## ------------------------------------------------------------------------
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                  GL         SQ         QM       Fc Pr&gt;Fc
+## Dose              2  2088.9800 1044.49002  75.8136     0
+## Planta:Dose 13.5  2  1090.1536  545.07683   39.564     0
+## Planta:Dose 27    2  2175.3786 1087.68931  78.9492     0
+## Planta:Dose 40    2  5980.9196 2990.45981 217.0605     0
+## Ad vs Fatorial    1  1790.4128  1790.4128 129.9559     0
+## Residuo          40   551.0833   13.77708               
+## Total            49 13676.9280                          
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+##  Planta  dentro do nivel  13.5  de  Dose 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     pisst   47.838 
+##  b    eiccr   33.902 
+##   c   brasu   27.402 
+## ------------------------------------------------------------------------
+## 
+## 
+##  Planta  dentro do nivel  27  de  Dose 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     pisst   63.346 
+##  b    eiccr   40.006 
+##  b    brasu   36.054 
+## ------------------------------------------------------------------------
+## 
+## 
+##  Planta  dentro do nivel  40  de  Dose 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     pisst   80.746 
+##  b    eiccr   43.296 
+##   c   brasu   34.774 
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+## Desdobrando  Dose  dentro de cada nivel de  Planta 
+## ------------------------------------------------------------------------
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                   GL         SQ         QM       Fc  Pr&gt;Fc
+## Planta             2  8179.8210 4089.91049 296.8633      0
+## Dose:Planta brasu  2   218.0698  109.03491   7.9142 0.0013
+## Dose:Planta eiccr  2   227.2169  113.60846   8.2462  0.001
+## Dose:Planta pisst  2  2710.3242 1355.16211  98.3635      0
+## Ad vs Fatorial     1  1790.4128  1790.4128 129.9559      0
+## Residuo           40   551.0833   13.77708                
+## Total             49 13676.9280                           
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+##  Dose  dentro do nivel  brasu  de  Planta 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     27      36.054 
+## a     40      34.774 
+##  b    13.5    27.402 
+## ------------------------------------------------------------------------
+## 
+## 
+##  Dose  dentro do nivel  eiccr  de  Planta 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     40      43.296 
+## a     27      40.006 
+##  b    13.5    33.902 
+## ------------------------------------------------------------------------
+## 
+## 
+##  Dose  dentro do nivel  pisst  de  Planta 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     40      80.746 
+##  b    27      63.346 
+##   c   13.5    47.838 
+## ------------------------------------------------------------------------
+## [1] &quot;##########################################&quot;
+## [1] &quot;ANOVA para:  ctc&quot;
+## [1] &quot;##########################################&quot;
+## ------------------------------------------------------------------------
+## Legenda:
+## FATOR 1:  Planta 
+## FATOR 2:  Dose 
+## ------------------------------------------------------------------------
+## 
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                GL         SQ         QM       Fc Pr&gt;Fc
+## Planta          2  7689.7388 3844.86938 282.4455     0
+## Dose            2  1795.2671  897.63358  65.9405     0
+## Planta*Dose     4   953.8531  238.46328  17.5176     0
+## Ad vs Fatorial  1  1319.6097 1319.60969   96.939     0
+## Residuo        40   544.5113   13.61278               
+## Total          49 12302.9800                          
+## ------------------------------------------------------------------------
+## CV = 6.39 %
+## 
+## ------------------------------------------------------------------------
+## Teste de normalidade dos residuos (Shapiro-Wilk)
+## valor-p:  0.6357401 
+## De acordo com o teste de Shapiro-Wilk a 5% de significancia, os residuos podem ser considerados normais.
+## ------------------------------------------------------------------------
+## 
+## Contraste do tratamento adicional com o fatorial
+## ------------------------------------------------------------------------
+##             Medias  
+## Adicional 42.31600 a
+## Fatorial  59.44044 b
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+## Interacao significativa: desdobrando a interacao
+## ------------------------------------------------------------------------
+## 
+## Desdobrando  Planta  dentro de cada nivel de  Dose 
+## ------------------------------------------------------------------------
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                  GL         SQ         QM       Fc Pr&gt;Fc
+## Dose              2  1795.2671  897.63358  65.9405     0
+## Planta:Dose 13.5  2  1076.4816  538.24083  39.5394     0
+## Planta:Dose 27    2  2127.1626 1063.58131  78.1311     0
+## Planta:Dose 40    2  5439.9476 2719.97381 199.8103     0
+## Ad vs Fatorial    1  1319.6097 1319.60969   96.939     0
+## Residuo          40   544.5113   13.61278               
+## Total            49 12302.9800                          
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+##  Planta  dentro do nivel  13.5  de  Dose 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     pisst   62.638 
+##  b    eiccr   49.302 
+##   c   brasu   42.202 
+## ------------------------------------------------------------------------
+## 
+## 
+##  Planta  dentro do nivel  27  de  Dose 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     pisst   76.946 
+##  b    eiccr   52.606 
+##  b    brasu   50.854 
+## ------------------------------------------------------------------------
+## 
+## 
+##  Planta  dentro do nivel  40  de  Dose 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     pisst   93.346 
+##  b    eiccr   57.496 
+##   c   brasu   49.574 
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+## Desdobrando  Dose  dentro de cada nivel de  Planta 
+## ------------------------------------------------------------------------
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                   GL         SQ         QM       Fc  Pr&gt;Fc
+## Planta             2  7689.7388 3844.86938 282.4455      0
+## Dose:Planta brasu  2   218.0698  109.03491   8.0097 0.0012
+## Dose:Planta eiccr  2   169.9503   84.97513   6.2423 0.0044
+## Dose:Planta pisst  2  2361.1002 1180.55011  86.7236      0
+## Ad vs Fatorial     1  1319.6097 1319.60969   96.939      0
+## Residuo           40   544.5113   13.61278                
+## Total             49 12302.9800                           
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+##  Dose  dentro do nivel  brasu  de  Planta 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     27      50.854 
+## a     40      49.574 
+##  b    13.5    42.202 
+## ------------------------------------------------------------------------
+## 
+## 
+##  Dose  dentro do nivel  eiccr  de  Planta 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     40      57.496 
+## ab    27      52.606 
+##  b    13.5    49.302 
+## ------------------------------------------------------------------------
+## 
+## 
+##  Dose  dentro do nivel  pisst  de  Planta 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     40      93.346 
+##  b    27      76.946 
+##   c   13.5    62.638 
+## ------------------------------------------------------------------------
+## [1] &quot;##########################################&quot;
+## [1] &quot;ANOVA para:  v_percent&quot;
+## [1] &quot;##########################################&quot;
+## ------------------------------------------------------------------------
+## Legenda:
+## FATOR 1:  Planta 
+## FATOR 2:  Dose 
+## ------------------------------------------------------------------------
+## 
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                GL         SQ        QM       Fc  Pr&gt;Fc
+## Planta          2 1332.01121 666.00561 129.6017      0
+## Dose            2  470.39145 235.19573   45.768      0
+## Planta*Dose     4   49.44313  12.36078   2.4054 0.0655
+## Ad vs Fatorial  1  968.00000       968 188.3684      0
+## Residuo        40  205.55460   5.13886                
+## Total          49 3025.40040                          
+## ------------------------------------------------------------------------
+## CV = 3.1 %
+## 
+## ------------------------------------------------------------------------
+## Teste de normalidade dos residuos (Shapiro-Wilk)
+## valor-p:  0.691061 
+## De acordo com o teste de Shapiro-Wilk a 5% de significancia, os residuos podem ser considerados normais.
+## ------------------------------------------------------------------------
+## 
+## Contraste do tratamento adicional com o fatorial
+## ------------------------------------------------------------------------
+##             Medias  
+## Adicional 59.83400 a
+## Fatorial  74.50067 b
+## ------------------------------------------------------------------------
+## 
+## Interacao nao significativa: analisando os efeitos simples
+## ------------------------------------------------------------------------
+## Planta
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     pisst   81.69333 
+##  b    eiccr   73.27067 
+##   c   brasu   68.538 
+## ------------------------------------------------------------------------
+## 
+## Dose
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     40      77.26267 
+## a     27      76.27533 
+##  b    13.5    69.964 
+## ------------------------------------------------------------------------
+## 
+## [1] &quot;##########################################&quot;
+## [1] &quot;ANOVA para:  b&quot;
+## [1] &quot;##########################################&quot;
+## ------------------------------------------------------------------------
+## Legenda:
+## FATOR 1:  Planta 
+## FATOR 2:  Dose 
+## ------------------------------------------------------------------------
+## 
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                GL      SQ      QM      Fc  Pr&gt;Fc
+## Planta          2 0.07061 0.03531 76.2563      0
+## Dose            2 0.00681 0.00341  7.3578 0.0019
+## Planta*Dose     4 0.00225 0.00056  1.2167 0.3189
+## Ad vs Fatorial  1 0.00034 0.00034    0.73  0.398
+## Residuo        40 0.01852 0.00046               
+## Total          49 0.09854                       
+## ------------------------------------------------------------------------
+## CV = 10.66 %
+## 
+## ------------------------------------------------------------------------
+## Teste de normalidade dos residuos (Shapiro-Wilk)
+## valor-p:  0.3343798 
+## De acordo com o teste de Shapiro-Wilk a 5% de significancia, os residuos podem ser considerados normais.
+## ------------------------------------------------------------------------
+## 
+## Contraste do tratamento adicional com o fatorial
+## ------------------------------------------------------------------------
+## De acordo com o teste F, as medias dos dois grupos sao estatisticamente iguais.
+##              Medias
+## Adicional 0.1940000
+## Fatorial  0.2026667
+## ------------------------------------------------------------------------
+## 
+## Interacao nao significativa: analisando os efeitos simples
+## ------------------------------------------------------------------------
+## Planta
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     pisst   0.2586667 
+##  b    eiccr   0.176 
+##  b    brasu   0.1733333 
+## ------------------------------------------------------------------------
+## 
+## Dose
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     40      0.2193333 
+##  b    27      0.1986667 
+##  b    13.5    0.19 
+## ------------------------------------------------------------------------
+## 
+## [1] &quot;##########################################&quot;
+## [1] &quot;ANOVA para:  cu&quot;
+## [1] &quot;##########################################&quot;
+## ------------------------------------------------------------------------
+## Legenda:
+## FATOR 1:  Planta 
+## FATOR 2:  Dose 
+## ------------------------------------------------------------------------
+## 
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                GL      SQ      QM      Fc  Pr&gt;Fc
+## Planta          2 0.08044 0.04022  9.1414  5e-04
+## Dose            2 0.01911 0.00956  2.1717 0.1272
+## Planta*Dose     4 0.01022 0.00256  0.5808 0.6783
+## Ad vs Fatorial  1 0.18402 0.18402 41.8232      0
+## Residuo        40 0.17600  0.0044               
+## Total          49 0.46980                       
+## ------------------------------------------------------------------------
+## CV = 22.26 %
+## 
+## ------------------------------------------------------------------------
+## Teste de normalidade dos residuos (Shapiro-Wilk)
+## valor-p:  0.2263326 
+## De acordo com o teste de Shapiro-Wilk a 5% de significancia, os residuos podem ser considerados normais.
+## ------------------------------------------------------------------------
+## 
+## Contraste do tratamento adicional com o fatorial
+## ------------------------------------------------------------------------
+##              Medias  
+## Adicional 0.4800000 a
+## Fatorial  0.2777778 b
+## ------------------------------------------------------------------------
+## 
+## Interacao nao significativa: analisando os efeitos simples
+## ------------------------------------------------------------------------
+## Planta
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     brasu   0.32 
+## a     eiccr   0.2933333 
+##  b    pisst   0.22 
+## ------------------------------------------------------------------------
+## 
+## Dose
+## De acordo com o teste F, as medias desse fator sao estatisticamente iguais.
+## ------------------------------------------------------------------------
+##   Niveis    Medias
+## 1   13.5 0.3066667
+## 2     27 0.2600000
+## 3     40 0.2666667
+## ------------------------------------------------------------------------
+## [1] &quot;##########################################&quot;
+## [1] &quot;ANOVA para:  mn&quot;
+## [1] &quot;##########################################&quot;
+## ------------------------------------------------------------------------
+## Legenda:
+## FATOR 1:  Planta 
+## FATOR 2:  Dose 
+## ------------------------------------------------------------------------
+## 
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                GL       SQ      QM      Fc  Pr&gt;Fc
+## Planta          2  0.45644 0.22822  1.3238 0.2775
+## Dose            2  7.63244 3.81622 22.1359      0
+## Planta*Dose     4  6.86089 1.71522  9.9491      0
+## Ad vs Fatorial  1  8.79202 8.79202 50.9978      0
+## Residuo        40  6.89600  0.1724               
+## Total          49 30.63780                       
+## ------------------------------------------------------------------------
+## CV = 12.82 %
+## 
+## ------------------------------------------------------------------------
+## Teste de normalidade dos residuos (Shapiro-Wilk)
+## valor-p:  0.0002713551 
+## ATENCAO: a 5% de significancia, os residuos nao podem ser considerados normais!
+## ------------------------------------------------------------------------
+## Contraste do tratamento adicional com o fatorial
+## ------------------------------------------------------------------------
+##             Medias  
+## Adicional 1.980000 a
+## Fatorial  3.377778 b
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+## Interacao significativa: desdobrando a interacao
+## ------------------------------------------------------------------------
+## 
+## Desdobrando  Planta  dentro de cada nivel de  Dose 
+## ------------------------------------------------------------------------
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                  GL       SQ      QM      Fc  Pr&gt;Fc
+## Dose              2  7.63244 3.81622 22.1359      0
+## Planta:Dose 13.5  2  4.65733 2.32867 13.5073      0
+## Planta:Dose 27    2  0.20800   0.104  0.6032 0.5519
+## Planta:Dose 40    2  2.45200   1.226  7.1114 0.0023
+## Ad vs Fatorial    1  8.79202 8.79202 50.9978      0
+## Residuo          40  6.89600  0.1724               
+## Total            49 30.63780                       
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+##  Planta  dentro do nivel  13.5  de  Dose 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     brasu   3.54 
+## a     eiccr   2.96 
+##  b    pisst   2.18 
+## ------------------------------------------------------------------------
+## 
+## 
+##  Planta  dentro do nivel  27  de  Dose 
+## 
+## De acordo com o teste F, as medias desse fator sao estatisticamente iguais.
+## ------------------------------------------------------------------------
+##   Niveis Medias
+## 1  brasu   3.50
+## 2  eiccr   3.22
+## 3  pisst   3.30
+## ------------------------------------------------------------------------
+## 
+## 
+##  Planta  dentro do nivel  40  de  Dose 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     pisst   4.46 
+##  b    eiccr   3.72 
+##  b    brasu   3.52 
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+## Desdobrando  Dose  dentro de cada nivel de  Planta 
+## ------------------------------------------------------------------------
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                   GL       SQ      QM      Fc  Pr&gt;Fc
+## Planta             2  0.45644 0.22822  1.3238 0.2775
+## Dose:Planta brasu  2  0.00400   0.002  0.0116 0.9885
+## Dose:Planta eiccr  2  1.49200   0.746  4.3271 0.0199
+## Dose:Planta pisst  2 12.99733 6.49867 37.6953      0
+## Ad vs Fatorial     1  8.79202 8.79202 50.9978      0
+## Residuo           40  6.89600  0.1724               
+## Total             49 30.63780                       
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+##  Dose  dentro do nivel  brasu  de  Planta 
+## 
+## De acordo com o teste F, as medias desse fator sao estatisticamente iguais.
+## ------------------------------------------------------------------------
+##   Niveis Medias
+## 1   13.5   3.54
+## 2     27   3.50
+## 3     40   3.52
+## ------------------------------------------------------------------------
+## 
+## 
+##  Dose  dentro do nivel  eiccr  de  Planta 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     40      3.72 
+## ab    27      3.22 
+##  b    13.5    2.96 
+## ------------------------------------------------------------------------
+## 
+## 
+##  Dose  dentro do nivel  pisst  de  Planta 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     40      4.46 
+##  b    27      3.3 
+##   c   13.5    2.18 
+## ------------------------------------------------------------------------
+## [1] &quot;##########################################&quot;
+## [1] &quot;ANOVA para:  fe&quot;
+## [1] &quot;##########################################&quot;
+## ------------------------------------------------------------------------
+## Legenda:
+## FATOR 1:  Planta 
+## FATOR 2:  Dose 
+## ------------------------------------------------------------------------
+## 
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                GL       SQ       QM      Fc  Pr&gt;Fc
+## Planta          2 34.53333 17.26667 45.4386      0
+## Dose            2  0.93333  0.46667  1.2281 0.3037
+## Planta*Dose     4  3.33333  0.83333   2.193 0.0872
+## Ad vs Fatorial  1  0.08000     0.08  0.2105 0.6488
+## Residuo        40 15.20000     0.38               
+## Total          49 54.08000                        
+## ------------------------------------------------------------------------
+## CV = 7.07 %
+## 
+## ------------------------------------------------------------------------
+## Teste de normalidade dos residuos (Shapiro-Wilk)
+## valor-p:  0.2182201 
+## De acordo com o teste de Shapiro-Wilk a 5% de significancia, os residuos podem ser considerados normais.
+## ------------------------------------------------------------------------
+## 
+## Contraste do tratamento adicional com o fatorial
+## ------------------------------------------------------------------------
+## De acordo com o teste F, as medias dos dois grupos sao estatisticamente iguais.
+##             Medias
+## Adicional 8.600000
+## Fatorial  8.733333
+## ------------------------------------------------------------------------
+## 
+## Interacao nao significativa: analisando os efeitos simples
+## ------------------------------------------------------------------------
+## Planta
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     eiccr   9.6 
+## a     brasu   9.066667 
+##  b    pisst   7.533333 
+## ------------------------------------------------------------------------
+## 
+## Dose
+## De acordo com o teste F, as medias desse fator sao estatisticamente iguais.
+## ------------------------------------------------------------------------
+##   Niveis   Medias
+## 1   13.5 8.600000
+## 2     27 8.666667
+## 3     40 8.933333
+## ------------------------------------------------------------------------
+## [1] &quot;##########################################&quot;
+## [1] &quot;ANOVA para:  zn&quot;
+## [1] &quot;##########################################&quot;
+## ------------------------------------------------------------------------
+## Legenda:
+## FATOR 1:  Planta 
+## FATOR 2:  Dose 
+## ------------------------------------------------------------------------
+## 
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                GL      SQ      QM       Fc  Pr&gt;Fc
+## Planta          2 1.46533 0.73267 133.2121      0
+## Dose            2 0.34133 0.17067  31.0303      0
+## Planta*Dose     4 0.08533 0.02133   3.8788 0.0094
+## Ad vs Fatorial  1 0.02880  0.0288   5.2364 0.0275
+## Residuo        40 0.22000  0.0055                
+## Total          49 2.14080                        
+## ------------------------------------------------------------------------
+## CV = 12.97 %
+## 
+## ------------------------------------------------------------------------
+## Teste de normalidade dos residuos (Shapiro-Wilk)
+## valor-p:  0.7237487 
+## De acordo com o teste de Shapiro-Wilk a 5% de significancia, os residuos podem ser considerados normais.
+## ------------------------------------------------------------------------
+## 
+## Contraste do tratamento adicional com o fatorial
+## ------------------------------------------------------------------------
+##           Medias  
+## Adicional   0.50 a
+## Fatorial    0.58 b
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+## Interacao significativa: desdobrando a interacao
+## ------------------------------------------------------------------------
+## 
+## Desdobrando  Planta  dentro de cada nivel de  Dose 
+## ------------------------------------------------------------------------
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                  GL      SQ      QM      Fc  Pr&gt;Fc
+## Dose              2 0.34133 0.17067 31.0303      0
+## Planta:Dose 13.5  2 0.26533 0.13267 24.1212      0
+## Planta:Dose 27    2 0.43600   0.218 39.6364      0
+## Planta:Dose 40    2 0.84933 0.42467 77.2121      0
+## Ad vs Fatorial    1 0.02880  0.0288  5.2364 0.0275
+## Residuo          40 0.22000  0.0055               
+## Total            49 2.14080                       
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+##  Planta  dentro do nivel  13.5  de  Dose 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     pisst   0.66 
+##  b    eiccr   0.4 
+##  b    brasu   0.36 
+## ------------------------------------------------------------------------
+## 
+## 
+##  Planta  dentro do nivel  27  de  Dose 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     pisst   0.82 
+##  b    eiccr   0.48 
+##  b    brasu   0.44 
+## ------------------------------------------------------------------------
+## 
+## 
+##  Planta  dentro do nivel  40  de  Dose 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     pisst   1.02 
+##  b    eiccr   0.56 
+##  b    brasu   0.48 
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+## Desdobrando  Dose  dentro de cada nivel de  Planta 
+## ------------------------------------------------------------------------
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                   GL      SQ      QM       Fc  Pr&gt;Fc
+## Planta             2 1.46533 0.73267 133.2121      0
+## Dose:Planta brasu  2 0.03733 0.01867   3.3939 0.0435
+## Dose:Planta eiccr  2 0.06400   0.032   5.8182 0.0061
+## Dose:Planta pisst  2 0.32533 0.16267  29.5758      0
+## Ad vs Fatorial     1 0.02880  0.0288   5.2364 0.0275
+## Residuo           40 0.22000  0.0055                
+## Total             49 2.14080                        
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+##  Dose  dentro do nivel  brasu  de  Planta 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     40      0.48 
+## ab    27      0.44 
+##  b    13.5    0.36 
+## ------------------------------------------------------------------------
+## 
+## 
+##  Dose  dentro do nivel  eiccr  de  Planta 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     40      0.56 
+## ab    27      0.48 
+##  b    13.5    0.4 
+## ------------------------------------------------------------------------
+## 
+## 
+##  Dose  dentro do nivel  pisst  de  Planta 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     40      1.02 
+##  b    27      0.82 
+##   c   13.5    0.66 
+## ------------------------------------------------------------------------
+## [1] &quot;##########################################&quot;
+## [1] &quot;ANOVA para:  cr&quot;
+## [1] &quot;##########################################&quot;
+## ------------------------------------------------------------------------
+## Legenda:
+## FATOR 1:  Planta 
+## FATOR 2:  Dose 
+## ------------------------------------------------------------------------
+## 
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                GL      SQ      QM      Fc  Pr&gt;Fc
+## Planta          2 0.03219  0.0161 20.9851      0
+## Dose            2 0.00115 0.00058  0.7504 0.4787
+## Planta*Dose     4 0.01134 0.00284  3.6969 0.0118
+## Ad vs Fatorial  1 0.00011 0.00011  0.1402   0.71
+## Residuo        40 0.03068 0.00077               
+## Total          49 0.07547                       
+## ------------------------------------------------------------------------
+## CV = 47.42 %
+## 
+## ------------------------------------------------------------------------
+## Teste de normalidade dos residuos (Shapiro-Wilk)
+## valor-p:  0.09614718 
+## De acordo com o teste de Shapiro-Wilk a 5% de significancia, os residuos podem ser considerados normais.
+## ------------------------------------------------------------------------
+## 
+## Contraste do tratamento adicional com o fatorial
+## ------------------------------------------------------------------------
+## De acordo com o teste F, as medias dos dois grupos sao estatisticamente iguais.
+##               Medias
+## Adicional 0.05400000
+## Fatorial  0.05888889
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+## Interacao significativa: desdobrando a interacao
+## ------------------------------------------------------------------------
+## 
+## Desdobrando  Planta  dentro de cada nivel de  Dose 
+## ------------------------------------------------------------------------
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                  GL      SQ      QM      Fc  Pr&gt;Fc
+## Dose              2 0.00115 0.00058  0.7504 0.4787
+## Planta:Dose 13.5  2 0.00972 0.00486  6.3364 0.0041
+## Planta:Dose 27    2 0.02057 0.01029 13.4116      0
+## Planta:Dose 40    2 0.01324 0.00662   8.631  8e-04
+## Ad vs Fatorial    1 0.00011 0.00011  0.1402   0.71
+## Residuo          40 0.03068 0.00077               
+## Total            49 0.07547                       
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+##  Planta  dentro do nivel  13.5  de  Dose 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     brasu   0.082 
+## a     pisst   0.082 
+##  b    eiccr   0.028 
+## ------------------------------------------------------------------------
+## 
+## 
+##  Planta  dentro do nivel  27  de  Dose 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     brasu   0.112 
+##  b    eiccr   0.044 
+##  b    pisst   0.026 
+## ------------------------------------------------------------------------
+## 
+## 
+##  Planta  dentro do nivel  40  de  Dose 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     brasu   0.094 
+##  b    pisst   0.032 
+##  b    eiccr   0.03 
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+## Desdobrando  Dose  dentro de cada nivel de  Planta 
+## ------------------------------------------------------------------------
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                   GL      SQ      QM      Fc  Pr&gt;Fc
+## Planta             2 0.03219  0.0161 20.9851      0
+## Dose:Planta brasu  2 0.00228 0.00114  1.4863 0.2384
+## Dose:Planta eiccr  2 0.00076 0.00038  0.4954  0.613
+## Dose:Planta pisst  2 0.00945 0.00473  6.1625 0.0046
+## Ad vs Fatorial     1 0.00011 0.00011  0.1402   0.71
+## Residuo           40 0.03068 0.00077               
+## Total             49 0.07547                       
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+##  Dose  dentro do nivel  brasu  de  Planta 
+## 
+## De acordo com o teste F, as medias desse fator sao estatisticamente iguais.
+## ------------------------------------------------------------------------
+##   Niveis Medias
+## 1   13.5  0.082
+## 2     27  0.112
+## 3     40  0.094
+## ------------------------------------------------------------------------
+## 
+## 
+##  Dose  dentro do nivel  eiccr  de  Planta 
+## 
+## De acordo com o teste F, as medias desse fator sao estatisticamente iguais.
+## ------------------------------------------------------------------------
+##   Niveis Medias
+## 1   13.5  0.028
+## 2     27  0.044
+## 3     40  0.030
+## ------------------------------------------------------------------------
+## 
+## 
+##  Dose  dentro do nivel  pisst  de  Planta 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     13.5    0.082 
+##  b    40      0.032 
+##  b    27      0.026 
+## ------------------------------------------------------------------------
+## [1] &quot;##########################################&quot;
+## [1] &quot;ANOVA para:  ni&quot;
+## [1] &quot;##########################################&quot;
+## ------------------------------------------------------------------------
+## Legenda:
+## FATOR 1:  Planta 
+## FATOR 2:  Dose 
+## ------------------------------------------------------------------------
+## 
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                GL      SQ      QM      Fc  Pr&gt;Fc
+## Planta          2 0.00774 0.00387  4.1781 0.0225
+## Dose            2 0.00600   0.003  3.2421 0.0496
+## Planta*Dose     4 0.00600  0.0015  1.6187 0.1884
+## Ad vs Fatorial  1 0.03827 0.03827 41.3307      0
+## Residuo        40 0.03704 0.00093               
+## Total          49 0.09505                       
+## ------------------------------------------------------------------------
+## CV = 17.19 %
+## 
+## ------------------------------------------------------------------------
+## Teste de normalidade dos residuos (Shapiro-Wilk)
+## valor-p:  0.3830536 
+## De acordo com o teste de Shapiro-Wilk a 5% de significancia, os residuos podem ser considerados normais.
+## ------------------------------------------------------------------------
+## 
+## Contraste do tratamento adicional com o fatorial
+## ------------------------------------------------------------------------
+##              Medias  
+## Adicional 0.0940000 a
+## Fatorial  0.1862222 b
+## ------------------------------------------------------------------------
+## 
+## Interacao nao significativa: analisando os efeitos simples
+## ------------------------------------------------------------------------
+## Planta
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     eiccr   0.2046667 
+## ab    pisst   0.1786667 
+##  b    brasu   0.1753333 
+## ------------------------------------------------------------------------
+## 
+## Dose
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     40      0.196 
+## a     27      0.1926667 
+## a     13.5    0.17 
+## ------------------------------------------------------------------------
+## 
+## [1] &quot;##########################################&quot;
+## [1] &quot;ANOVA para:  cd&quot;
+## [1] &quot;##########################################&quot;
+## ------------------------------------------------------------------------
+## Legenda:
+## FATOR 1:  Planta 
+## FATOR 2:  Dose 
+## ------------------------------------------------------------------------
+## 
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                GL      SQ      QM      Fc  Pr&gt;Fc
+## Planta          2 0.00182 0.00091 15.9454      0
+## Dose            2 0.00012   6e-05  1.0916 0.3455
+## Planta*Dose     4 0.00065 0.00016   2.846 0.0363
+## Ad vs Fatorial  1 0.00172 0.00172  30.191      0
+## Residuo        40 0.00228   6e-05               
+## Total          49 0.00659                       
+## ------------------------------------------------------------------------
+## CV = 38.52 %
+## 
+## ------------------------------------------------------------------------
+## Teste de normalidade dos residuos (Shapiro-Wilk)
+## valor-p:  0.001205495 
+## ATENCAO: a 5% de significancia, os residuos nao podem ser considerados normais!
+## ------------------------------------------------------------------------
+## Contraste do tratamento adicional com o fatorial
+## ------------------------------------------------------------------------
+##               Medias  
+## Adicional 0.00200000 a
+## Fatorial  0.02155556 b
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+## Interacao significativa: desdobrando a interacao
+## ------------------------------------------------------------------------
+## 
+## Desdobrando  Planta  dentro de cada nivel de  Dose 
+## ------------------------------------------------------------------------
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                  GL      SQ      QM      Fc  Pr&gt;Fc
+## Dose              2 0.00012   6e-05  1.0916 0.3455
+## Planta:Dose 13.5  2 0.00121 0.00061 10.6433  2e-04
+## Planta:Dose 27    2 0.00004   2e-05  0.3509 0.7062
+## Planta:Dose 40    2 0.00121 0.00061 10.6433  2e-04
+## Ad vs Fatorial    1 0.00172 0.00172  30.191      0
+## Residuo          40 0.00228   6e-05               
+## Total            49 0.00659                       
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+##  Planta  dentro do nivel  13.5  de  Dose 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     eiccr   0.032 
+##  b    brasu   0.014 
+##  b    pisst   0.012 
+## ------------------------------------------------------------------------
+## 
+## 
+##  Planta  dentro do nivel  27  de  Dose 
+## 
+## De acordo com o teste F, as medias desse fator sao estatisticamente iguais.
+## ------------------------------------------------------------------------
+##   Niveis Medias
+## 1  brasu  0.022
+## 2  eiccr  0.024
+## 3  pisst  0.020
+## ------------------------------------------------------------------------
+## 
+## 
+##  Planta  dentro do nivel  40  de  Dose 
+## ------------------------------------------------------------------------
+## Teste de Tukey
+## ------------------------------------------------------------------------
+## Grupos Tratamentos Medias
+## a     eiccr   0.034 
+## a     brasu   0.024 
+##  b    pisst   0.012 
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+## Desdobrando  Dose  dentro de cada nivel de  Planta 
+## ------------------------------------------------------------------------
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                   GL      SQ      QM      Fc  Pr&gt;Fc
+## Planta             2 0.00182 0.00091 15.9454      0
+## Dose:Planta brasu  2 0.00028 0.00014  2.4561 0.0986
+## Dose:Planta eiccr  2 0.00028 0.00014  2.4561 0.0986
+## Dose:Planta pisst  2 0.00021 0.00011  1.8713 0.1671
+## Ad vs Fatorial     1 0.00172 0.00172  30.191      0
+## Residuo           40 0.00228   6e-05               
+## Total             49 0.00659                       
+## ------------------------------------------------------------------------
+## 
+## 
+## 
+##  Dose  dentro do nivel  brasu  de  Planta 
+## 
+## De acordo com o teste F, as medias desse fator sao estatisticamente iguais.
+## ------------------------------------------------------------------------
+##   Niveis Medias
+## 1   13.5  0.014
+## 2     27  0.022
+## 3     40  0.024
+## ------------------------------------------------------------------------
+## 
+## 
+##  Dose  dentro do nivel  eiccr  de  Planta 
+## 
+## De acordo com o teste F, as medias desse fator sao estatisticamente iguais.
+## ------------------------------------------------------------------------
+##   Niveis Medias
+## 1   13.5  0.032
+## 2     27  0.024
+## 3     40  0.034
+## ------------------------------------------------------------------------
+## 
+## 
+##  Dose  dentro do nivel  pisst  de  Planta 
+## 
+## De acordo com o teste F, as medias desse fator sao estatisticamente iguais.
+## ------------------------------------------------------------------------
+##   Niveis Medias
+## 1   13.5  0.012
+## 2     27  0.020
+## 3     40  0.012
+## ------------------------------------------------------------------------
+## [1] &quot;##########################################&quot;
+## [1] &quot;ANOVA para:  pb&quot;
+## [1] &quot;##########################################&quot;
+## ------------------------------------------------------------------------
+## Legenda:
+## FATOR 1:  Planta 
+## FATOR 2:  Dose 
+## ------------------------------------------------------------------------
+## 
+## ------------------------------------------------------------------------
+## Quadro da analise de variancia
+## ------------------------------------------------------------------------
+##                GL      SQ      QM     Fc  Pr&gt;Fc
+## Planta          2 0.04492 0.02246 2.8455 0.0699
+## Dose            2 0.00534 0.00267 0.3381 0.7151
+## Planta*Dose     4 0.00776 0.00194 0.2456 0.9106
+## Ad vs Fatorial  1 0.01742 0.01742  2.207 0.1452
+## Residuo        40 0.31576 0.00789              
+## Total          49 0.39120                      
+## ------------------------------------------------------------------------
+## CV = 17.56 %
+## 
+## ------------------------------------------------------------------------
+## Teste de normalidade dos residuos (Shapiro-Wilk)
+## valor-p:  0.6376874 
+## De acordo com o teste de Shapiro-Wilk a 5% de significancia, os residuos podem ser considerados normais.
+## ------------------------------------------------------------------------
+## 
+## Contraste do tratamento adicional com o fatorial
+## ------------------------------------------------------------------------
+## De acordo com o teste F, as medias dos dois grupos sao estatisticamente iguais.
+##              Medias
+## Adicional 0.4500000
+## Fatorial  0.5122222
+## ------------------------------------------------------------------------
+## 
+## Interacao nao significativa: analisando os efeitos simples
+## ------------------------------------------------------------------------
+## Planta
+## De acordo com o teste F, as medias desse fator sao estatisticamente iguais.
+## ------------------------------------------------------------------------
+##   Niveis    Medias
+## 1  brasu 0.5500000
+## 2  eiccr 0.5140000
+## 3  pisst 0.4726667
+## ------------------------------------------------------------------------
+## Dose
+## De acordo com o teste F, as medias desse fator sao estatisticamente iguais.
+## ------------------------------------------------------------------------
+##   Niveis    Medias
+## 1   13.5 0.5126667
+## 2     27 0.4986667
+## 3     40 0.5253333
+## ------------------------------------------------------------------------</code></pre>
 </div>
 
 

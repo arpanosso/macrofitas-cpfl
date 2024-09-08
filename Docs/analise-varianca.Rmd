@@ -8,22 +8,51 @@ date: "2024-09-06"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+## Carregando Pacotes
+```{r}
+library(tidyverse)
+library(ExpDes.pt)
 ```
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+## Carregando dados
+```{r}
+data_set <- read_rds("../data/solo-macrofita")
+glimpse(data_set)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r}
+data_set_aux <- data_set %>% 
+  filter(macrofita != "testem")
+planta <- data_set_aux %>% 
+  pull(macrofita)
+dose <- data_set_aux %>% 
+  pull(dose_t_ha)
+rep <- data_set_aux %>% 
+  pull(repeticao)
+```
+
+```{r}
+variaveis <- data_set %>% 
+  select(mo:pb) %>% 
+  names()
+for(i in seq_along(variaveis)){
+  print("##########################################")
+  print(paste("ANOVA para: ",variaveis[i]))
+  print("##########################################")
+  data_set %>% 
+    select(variaveis[i])
+  
+  respad <- data_set %>% 
+    filter(macrofita == "testem") %>%
+    select(variaveis[i]) %>% 
+    pull(variaveis[i])
+  resp <- data_set_aux %>% 
+    select(variaveis[i]) %>% 
+    pull(variaveis[i])
+  fat2.ad.dic(planta,dose,rep,resp,respad,
+              fac.names = c("Planta","Dose"))
+}
+
+```
+

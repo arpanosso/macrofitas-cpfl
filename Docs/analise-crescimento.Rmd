@@ -1,7 +1,7 @@
 ---
 title: "Análise de variância"
 output: html_document
-date: "2024-09-06"
+date: "2024-09-17"
 ---
 
 ```{r setup, include=FALSE}
@@ -23,24 +23,24 @@ library(ExpDes.pt)
 
 ## Carregando dados
 ```{r}
-data_set <- read_rds("../data/solo-macrofita")
+data_set <- read_rds("../data/crescimento-braquiaria")
 glimpse(data_set)
 ```
 
 ```{r}
 data_set_aux <- data_set %>% 
-  filter(macrofita != "testem")
+  filter(especie != "TESTE")
 planta <- data_set_aux %>% 
-  pull(macrofita)
+  pull(especie)
 dose <- data_set_aux %>% 
-  pull(dose_t_ha)
+  pull(dose)
 rep <- data_set_aux %>% 
   pull(repeticao)
 ```
 
 ```{r}
 variaveis <- data_set %>% 
-  select(mo:pb) %>% 
+  select(altura:raiz) %>% 
   names()
 for(i in seq_along(variaveis)){
   print("##########################################")
@@ -50,7 +50,7 @@ for(i in seq_along(variaveis)){
     select(variaveis[i])
   
   respad <- data_set %>% 
-    filter(macrofita == "testem") %>%
+    filter(especie == "TESTE") %>%
     select(variaveis[i]) %>% 
     pull(variaveis[i])
   resp <- data_set_aux %>% 

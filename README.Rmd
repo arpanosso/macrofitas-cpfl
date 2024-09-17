@@ -20,11 +20,12 @@ knitr::opts_chunk$set(
 
 ```{r}
 library(tidyverse)
-library(ExpDes.pt)
 ```
 #### [Análise multivariada](https://arpanosso.github.io/macrofitas-cpfl/Docs/analise-multivariada.html)
 
-#### [Análise de variância](https://arpanosso.github.io/macrofitas-cpfl/Docs/analise-varianca.html)
+#### [Análise de variância - Solo](https://arpanosso.github.io/macrofitas-cpfl/Docs/analise-varianca.html)
+
+#### [Análise de variância -Crescimento Braquiária](https://arpanosso.github.io/macrofitas-cpfl/Docs/analise-crescimento.html)
 
 ## Pré-processamento
 ```{r}
@@ -80,7 +81,7 @@ write_rds(df,"data/quimica-macrofita")
 Leitura do banco
 ```{r}
 dff <- readxl::read_xlsx("data-raw/dadoscpfl.xlsx",
-                        sheet = sheets[2],
+                        sheet = sheets[3],
                         skip = 1) %>% 
   janitor::clean_names() %>% 
   mutate(
@@ -121,7 +122,45 @@ dff %>%
 
 
 
+### Experimento de Crecimento da Braquiária
 
+Leitura do banco
+```{r}
+dfff <- readxl::read_xlsx("data-raw/dadoscpfl.xlsx",
+                        sheet = sheets[2]) %>% 
+  janitor::clean_names() %>% 
+  mutate(
+    dose = ifelse(dose == "20/ t/ha", "20 t/ha",ifelse(dose == "22 t/ha", "20 t/ha",dose))
+  )
+```
+Resumo rápido do banco de dados
+
+```{r}
+glimpse(dfff)
+```
+
+Resumo geral
+```{r}
+skimr::skim(dff)
+```
+
+## Salvar o df em rds
+
+```{r}
+write_rds(dfff,"data/crescimento-braquiaria")
+```
+
+
+#### Boxplot por tratamentos por variável
+```{r}
+# A programar
+dfff %>% 
+  filter(especie != "TESTE") %>% 
+  ggplot(aes(x=especie, y=altura, fill=dose)) +
+  geom_boxplot() +
+  facet_wrap(~dose, scales = "free") +
+  theme_bw()
+```
 
 
 

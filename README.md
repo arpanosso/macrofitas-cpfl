@@ -7,12 +7,13 @@
 
 ``` r
 library(tidyverse)
-library(ExpDes.pt)
 ```
 
 #### [Análise multivariada](https://arpanosso.github.io/macrofitas-cpfl/Docs/analise-multivariada.html)
 
-#### [Análise de variância](https://arpanosso.github.io/macrofitas-cpfl/Docs/analise-varianca.html)
+#### [Análise de variância - Solo](https://arpanosso.github.io/macrofitas-cpfl/Docs/analise-varianca.html)
+
+#### [Análise de variância -Crescimento Braquiária](https://arpanosso.github.io/macrofitas-cpfl/Docs/analise-crescimento.html)
 
 ## Pré-processamento
 
@@ -140,7 +141,7 @@ Leitura do banco
 
 ``` r
 dff <- readxl::read_xlsx("data-raw/dadoscpfl.xlsx",
-                        sheet = sheets[2],
+                        sheet = sheets[3],
                         skip = 1) %>% 
   janitor::clean_names() %>% 
   mutate(
@@ -255,3 +256,105 @@ dff %>%
 ```
 
 ![](README_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+
+### Experimento de Crecimento da Braquiária
+
+Leitura do banco
+
+``` r
+dfff <- readxl::read_xlsx("data-raw/dadoscpfl.xlsx",
+                        sheet = sheets[2]) %>% 
+  janitor::clean_names() %>% 
+  mutate(
+    dose = ifelse(dose == "20/ t/ha", "20 t/ha",ifelse(dose == "22 t/ha", "20 t/ha",dose))
+  )
+```
+
+Resumo rápido do banco de dados
+
+``` r
+glimpse(dfff)
+#> Rows: 40
+#> Columns: 7
+#> $ especie   <chr> "TESTE", "TESTE", "TESTE", "TESTE", "BRASU", "BRASU", "BRASU…
+#> $ dose      <chr> NA, NA, NA, NA, "05 t/ha", "05 t/ha", "05 t/ha", "05 t/ha", …
+#> $ repeticao <dbl> 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, …
+#> $ altura    <dbl> 34.8, 35.0, 32.9, 36.5, 36.8, 37.9, 41.2, 38.2, 39.6, 35.0, …
+#> $ perfilho  <dbl> 4.100, 3.530, 3.610, 3.960, 4.120, 5.600, 3.350, 4.530, 6.92…
+#> $ p_aerea   <dbl> 4.01000, 3.57000, 3.42000, 3.52000, 2.11000, 3.12000, 2.1400…
+#> $ raiz      <dbl> 1.33000, 0.99000, 1.02000, 1.06000, 0.98000, 0.89000, 0.9100…
+```
+
+Resumo geral
+
+``` r
+skimr::skim(dff)
+```
+
+|                                                  |      |
+|:-------------------------------------------------|:-----|
+| Name                                             | dff  |
+| Number of rows                                   | 50   |
+| Number of columns                                | 24   |
+| \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_   |      |
+| Column type frequency:                           |      |
+| character                                        | 1    |
+| numeric                                          | 23   |
+| \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ |      |
+| Group variables                                  | None |
+
+Data summary
+
+**Variable type: character**
+
+| skim_variable | n_missing | complete_rate | min | max | empty | n_unique | whitespace |
+|:--------------|----------:|--------------:|----:|----:|------:|---------:|-----------:|
+| macrofita     |         0 |             1 |   5 |   6 |     0 |        4 |          0 |
+
+**Variable type: numeric**
+
+| skim_variable | n_missing | complete_rate |  mean |    sd |    p0 |   p25 |   p50 |   p75 |  p100 | hist  |
+|:--------------|----------:|--------------:|------:|------:|------:|------:|------:|------:|------:|:------|
+| dose_t_ha     |         5 |           0.9 | 26.83 | 10.94 | 13.50 | 13.50 | 27.00 | 40.00 | 40.00 | ▇▁▇▁▇ |
+| repeticao     |         0 |           1.0 |  3.00 |  1.43 |  1.00 |  2.00 |  3.00 |  4.00 |  5.00 | ▇▇▇▇▇ |
+| mo            |         0 |           1.0 |  9.62 |  3.02 |  7.00 |  8.00 |  9.00 | 10.00 | 27.00 | ▇▁▁▁▁ |
+| p_h           |         0 |           1.0 |  6.10 |  0.33 |  5.30 |  5.90 |  6.10 |  6.40 |  6.70 | ▁▂▇▃▃ |
+| p             |         0 |           1.0 |  7.44 |  5.53 |  3.00 |  4.00 |  6.00 |  7.00 | 30.00 | ▇▁▁▁▁ |
+| k             |         0 |           1.0 |  9.22 |  6.00 |  0.86 |  5.04 |  8.25 | 11.41 | 24.62 | ▅▇▂▂▂ |
+| ca            |         0 |           1.0 | 25.69 |  9.12 | 15.81 | 18.37 | 22.25 | 28.46 | 47.95 | ▇▅▁▂▁ |
+| mg            |         0 |           1.0 |  8.36 |  2.15 |  5.57 |  6.59 |  7.84 |  9.53 | 14.44 | ▇▆▃▁▁ |
+| al            |         0 |           1.0 |  0.19 |  0.05 |  0.12 |  0.14 |  0.18 |  0.22 |  0.32 | ▇▆▅▂▁ |
+| h_al          |         0 |           1.0 | 14.46 |  1.53 | 12.00 | 13.00 | 14.50 | 15.00 | 18.00 | ▇▆▇▃▃ |
+| s             |         0 |           1.0 | 32.94 | 12.24 |  8.00 | 24.00 | 35.00 | 40.00 | 58.00 | ▃▇▇▆▃ |
+| sb            |         0 |           1.0 | 43.27 | 16.71 | 24.47 | 31.15 | 38.87 | 47.00 | 85.19 | ▇▇▁▂▂ |
+| ctc           |         0 |           1.0 | 57.73 | 15.85 | 39.25 | 46.34 | 53.33 | 61.74 | 98.19 | ▇▆▁▂▂ |
+| v_percent     |         0 |           1.0 | 73.03 |  7.86 | 59.01 | 67.57 | 73.30 | 78.08 | 87.65 | ▅▅▇▅▅ |
+| b             |         0 |           1.0 |  0.20 |  0.04 |  0.15 |  0.17 |  0.19 |  0.22 |  0.34 | ▇▅▂▂▁ |
+| cu            |         0 |           1.0 |  0.30 |  0.10 |  0.10 |  0.23 |  0.30 |  0.30 |  0.60 | ▃▇▂▁▁ |
+| mn            |         0 |           1.0 |  3.24 |  0.79 |  1.40 |  2.82 |  3.35 |  3.60 |  6.00 | ▃▅▇▁▁ |
+| fe            |         0 |           1.0 |  8.72 |  1.05 |  7.00 |  8.00 |  9.00 | 10.00 | 10.00 | ▃▆▁▇▇ |
+| zn            |         0 |           1.0 |  0.57 |  0.21 |  0.30 |  0.40 |  0.50 |  0.60 |  1.10 | ▆▇▁▂▂ |
+| cr            |         0 |           1.0 |  0.06 |  0.04 |  0.00 |  0.03 |  0.06 |  0.09 |  0.14 | ▇▇▇▇▂ |
+| ni            |         0 |           1.0 |  0.18 |  0.04 |  0.07 |  0.15 |  0.18 |  0.21 |  0.28 | ▂▃▇▇▁ |
+| cd            |         0 |           1.0 |  0.02 |  0.01 |  0.00 |  0.01 |  0.02 |  0.03 |  0.04 | ▃▂▇▆▁ |
+| pb            |         0 |           1.0 |  0.51 |  0.09 |  0.30 |  0.44 |  0.50 |  0.59 |  0.68 | ▁▇▇▇▃ |
+
+## Salvar o df em rds
+
+``` r
+write_rds(dfff,"data/crescimento-braquiaria")
+```
+
+#### Boxplot por tratamentos por variável
+
+``` r
+# A programar
+dfff %>% 
+  filter(especie != "TESTE") %>% 
+  ggplot(aes(x=especie, y=altura, fill=dose)) +
+  geom_boxplot() +
+  facet_wrap(~dose, scales = "free") +
+  theme_bw()
+```
+
+![](README_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->

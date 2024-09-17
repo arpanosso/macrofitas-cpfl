@@ -37,6 +37,34 @@ datas <- data_set %>%
   unique()
 glimpse(data_set)
 ```
+```{r}
+my_estat_desc <- function(x){
+  media = mean(x)
+  mediana = median(x)
+  dp = sd(x)
+  cv = 100*dp/media
+  ca = agricolae::skewness(x)
+  cc = agricolae::kurtosis(x)
+  c(media,mediana,dp,cv,ca,cc)
+}
+
+nome_estat = rep(c("Media",
+                   "Mediana",
+                   "Desvpad",
+                   "Coef_var",
+                   "Coef_assim",
+                   "Coef_curt"))
+
+data_set %>% 
+  group_by(data, amostra) %>% 
+  summarise(
+    across(
+      where(is.numeric), my_estat_desc
+    )
+  ) %>%
+  mutate(stat = nome_estat,
+         .after = amostra)
+```
 
 
 ```{r, echo=FALSE}

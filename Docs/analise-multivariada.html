@@ -391,6 +391,49 @@ glimpse(data_set)
 #&gt; $ ni      &lt;dbl&gt; 1.6, 2.3, 3.3, 2.1, 1.1, 12.6, 21.3, 15.6, 16.6, 13.6, 15.4, 2…
 #&gt; $ cr      &lt;dbl&gt; 1.5, 2.5, 0.5, 1.1, 0.5, 6.5, 12.9, 5.9, 4.8, 4.7, 3.6, 8.9, 8…
 #&gt; $ pb      &lt;dbl&gt; 0.5, 0.5, 0.5, 0.5, 0.5, 2.5, 3.5, 3.0, 3.0, 2.5, 4.0, 5.5, 4.…</code></pre>
+<pre class="r"><code>my_estat_desc &lt;- function(x){
+  media = mean(x)
+  mediana = median(x)
+  dp = sd(x)
+  cv = 100*dp/media
+  ca = agricolae::skewness(x)
+  cc = agricolae::kurtosis(x)
+  c(media,mediana,dp,cv,ca,cc)
+}
+
+nome_estat = rep(c(&quot;Media&quot;,
+                   &quot;Mediana&quot;,
+                   &quot;Desvpad&quot;,
+                   &quot;Coef_var&quot;,
+                   &quot;Coef_assim&quot;,
+                   &quot;Coef_curt&quot;))
+
+data_set %&gt;% 
+  group_by(data, amostra) %&gt;% 
+  summarise(
+    across(
+      where(is.numeric), my_estat_desc
+    )
+  ) %&gt;%
+  mutate(stat = nome_estat,
+         .after = amostra)
+#&gt; # A tibble: 42 × 18
+#&gt; # Groups:   data, amostra [7]
+#&gt;    data                amostra stat        n      p       k     ca     mg      s
+#&gt;    &lt;dttm&gt;              &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+#&gt;  1 2018-02-01 00:00:00 brasu   Media   9.58   0.52  11.8     1.38   1.22   1.94 
+#&gt;  2 2018-02-01 00:00:00 brasu   Media…  9.5    0.5   13.6     1.4    1.2    2.1  
+#&gt;  3 2018-02-01 00:00:00 brasu   Desvp…  2.07   0.130  6.13    0.567  0.356  0.416
+#&gt;  4 2018-02-01 00:00:00 brasu   Coef_… 21.6   25.1   52.1    41.1   29.2   21.4  
+#&gt;  5 2018-02-01 00:00:00 brasu   Coef_…  0.510  0.541  0.0465  0.174 -0.272 -0.575
+#&gt;  6 2018-02-01 00:00:00 brasu   Coef_… -0.904 -1.49  -1.56    1.91   1.78  -2.46 
+#&gt;  7 2018-02-01 00:00:00 eiccr   Media  18.3    1.98  38.1    17.5    5.42   2.44 
+#&gt;  8 2018-02-01 00:00:00 eiccr   Media… 20      2.1   36.2    17.6    5.4    2.5  
+#&gt;  9 2018-02-01 00:00:00 eiccr   Desvp…  2.66   0.409  4.22    1.96   0.482  0.279
+#&gt; 10 2018-02-01 00:00:00 eiccr   Coef_… 14.6   20.6   11.1    11.2    8.89  11.4  
+#&gt; # ℹ 32 more rows
+#&gt; # ℹ 9 more variables: b &lt;dbl&gt;, cu &lt;dbl&gt;, fe &lt;dbl&gt;, mn &lt;dbl&gt;, zn &lt;dbl&gt;,
+#&gt; #   cd &lt;dbl&gt;, ni &lt;dbl&gt;, cr &lt;dbl&gt;, pb &lt;dbl&gt;</code></pre>
 <pre><code>#&gt; [1] &quot;##########################################&quot;
 #&gt; [1] &quot;     Data 2018-02-01&quot;
 #&gt; [1] &quot;##########################################&quot;

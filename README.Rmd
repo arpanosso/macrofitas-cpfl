@@ -16,153 +16,44 @@ knitr::opts_chunk$set(
 
 # Análise de dados macrofitas-cpfl
 
+### [Análise multivariada](https://arpanosso.github.io/macrofitas-cpfl/Docs/analise-multivariada.html)
+
+### [Análise de variância - Solo](https://arpanosso.github.io/macrofitas-cpfl/Docs/analise-varianca.html)
+
+### [Análise de variância -Crescimento Braquiária](https://arpanosso.github.io/macrofitas-cpfl/Docs/analise-crescimento.html)
+
 ## Carregando Pacotes
 
 ```{r}
 library(tidyverse)
+source("R/function.R")
 ```
-#### [Análise multivariada](https://arpanosso.github.io/macrofitas-cpfl/Docs/analise-multivariada.html)
 
-#### [Análise de variância - Solo](https://arpanosso.github.io/macrofitas-cpfl/Docs/analise-varianca.html)
-
-#### [Análise de variância -Crescimento Braquiária](https://arpanosso.github.io/macrofitas-cpfl/Docs/analise-crescimento.html)
-
-## Pré-processamento
-```{r}
-sheets <- readxl::excel_sheets("data-raw/dadoscpfl.xlsx")
-```
-### Composição química
-
-Leitura do banco
-```{r}
-df <- readxl::read_xlsx("data-raw/dadoscpfl.xlsx",
-                        sheet = sheets[1],
-                        skip = 1) %>% 
-  rename(data = "...1") %>% 
-  janitor::clean_names() %>% 
-  mutate(
-    amostra = str_to_lower(amostra),
-    cd = as.numeric(ifelse(cd == "<1",0.5,cd)),
-    cr = as.numeric(ifelse(cr == "<1",0.5,cr)),
-    pb = as.numeric(ifelse(pb == "<1",0.5,pb))
-  )
-```
-Resumo rápido do banco de dados
+## Carregando o banco de dados
 
 ```{r}
-glimpse(df)
+quimica <- readr::read_rds("data/quimica-macrofita")
 ```
 
-Resumo geral
+
+### Cálculo da estatística descritiva
 ```{r}
-skimr::skim(df)
+quimica |> 
+  group_by(data, amostra) |> 
+  summarise(across(where(is.numeric),estatisticas)) |> 
+  mutate(estatistica = c("Media","Mediana","Desv-pad","CV","CA","CC"),
+         .after = amostra) |> 
+  writexl::write_xlsx("outputs/estat-desc-quimica.xlsx")
 ```
 
-## Salvar o df em rds
-
-```{r}
-write_rds(df,"data/quimica-macrofita")
-```
-
-
-#### Corrplot geral
-```{r}
-# A programar
-```
-
-
-#### Corrplot por data
-```{r}
-# A programar
-```
-
-### Experimento de apicação em solo
-
-Leitura do banco
-```{r}
-dff <- readxl::read_xlsx("data-raw/dadoscpfl.xlsx",
-                        sheet = sheets[3],
-                        skip = 1) %>% 
-  janitor::clean_names() %>% 
-  mutate(
-    macrofita = str_to_lower(macrofita),
-    cr = ifelse(is.na(cr),0,cr),
-    cd = ifelse(is.na(cd),0,cd)
-  )
-```
-Resumo rápido do banco de dados
 
 ```{r}
-glimpse(dff)
+solo <- readr::read_rds("data/solo-macrofita")
+glimpse(solo)
 ```
 
-Resumo geral
-```{r}
-skimr::skim(dff)
-```
-
-## Salvar o df em rds
 
 ```{r}
-write_rds(dff,"data/solo-macrofita")
+braquiaria <- readr::read_rds("data/crescimento-braquiaria")
+glimpse(braquiaria)
 ```
-
-
-#### Boxplot por tratamentos por variável
-```{r}
-# A programar
-dff %>% 
-  filter(macrofita != "testem") %>% 
-  ggplot(aes(x=macrofita,y=mo, fill=macrofita)) +
-  geom_boxplot() +
-  facet_wrap(~dose_t_ha, scales = "free", ncol = 1) +
-  theme_bw()
-```
-
-
-
-
-### Experimento de Crecimento da Braquiária
-
-Leitura do banco
-```{r}
-dfff <- readxl::read_xlsx("data-raw/dadoscpfl.xlsx",
-                        sheet = sheets[2]) %>% 
-  janitor::clean_names() %>% 
-  mutate(
-    dose = ifelse(dose == "20/ t/ha", "20 t/ha",ifelse(dose == "22 t/ha", "20 t/ha",dose))
-  )
-```
-Resumo rápido do banco de dados
-
-```{r}
-glimpse(dfff)
-```
-
-Resumo geral
-```{r}
-skimr::skim(dff)
-```
-
-## Salvar o df em rds
-
-```{r}
-write_rds(dfff,"data/crescimento-braquiaria")
-```
-
-
-#### Boxplot por tratamentos por variável
-```{r}
-# A programar
-dfff %>% 
-  filter(especie != "TESTE") %>% 
-  ggplot(aes(x=especie, y=altura, fill=dose)) +
-  geom_boxplot() +
-  facet_wrap(~dose, scales = "free") +
-  theme_bw()
-```
-
-
-
-
-

@@ -13,12 +13,12 @@ erro_pad <- function(x){
 
 #'Função para criação da estatística descritiva
 estatisticas <- function(x){
-  c(
+  round(c(
     media = mean(x),
     mediana= median(x),
     desvio_padrao = sd(x),
     cv = coef_var(x),
     assimetria = agricolae::skewness(x),
     curtose = agricolae::kurtosis(x)
-  )
+  ),4)
 }

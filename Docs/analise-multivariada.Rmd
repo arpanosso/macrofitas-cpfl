@@ -20,6 +20,7 @@ knitr::opts_chunk$set(
 library(tidyverse)
 library(corrplot)
 library(vegan)
+source("../R/function.R")
 theme_set(theme_bw())
 ```
 
@@ -29,41 +30,72 @@ theme_set(theme_bw())
 data_set <- read_rds("../data/quimica-macrofita")
 ```
 
-## Retirando as datas
+
+## Tabela da estatística descritiva
+```{r}
+data_set |> 
+  mutate(data = ymd(data)) |> 
+  filter(data == "2018-02-01") |> 
+  group_by(amostra) |> 
+  summarise(across(where(is.numeric),estatisticas)) |> 
+  mutate(estatistica = c("Media","Mediana","Desv-pad","CV","CA","CC"),
+         .after = amostra) |> 
+  gt::gt()
+```
+```{r}
+data_set |> 
+  mutate(data = ymd(data)) |> 
+  filter(data == "2018-06-01") |> 
+  group_by(amostra) |> 
+  summarise(across(where(is.numeric),estatisticas)) |> 
+  mutate(estatistica = c("Media","Mediana","Desv-pad","CV","CA","CC"),
+         .after = amostra) |> 
+  gt::gt()
+```
+## Existem diferenças significativas entre as médias dos nutrientes dentro de uma data e entre as datas?
+
+```{r}
+data_set |> 
+  pivot_longer(n:pb, 
+               names_to = "variable", 
+               values_to = "value") |> 
+  group_by(variable) |> 
+  nest() -> data_set_nest
+data_set_nest$data[[1]]
+
+my_anova <- function(df){
+  df <- df |> filter(amostra != "salmo")
+  epoca <- df$data
+  especie <- df$amostra
+  y <- df$value
+  ep <- unique(epoca)
+  esp <- unique(especie)
+  tab <- data.fram
+                    Fobs = 0,
+                    p_valor = 0)
+  for(i in seq_along(esp)){
+    f <- especie == esp[i]
+    vt <- var.test(y[f] ~ epoca[f])
+    tab[i,1] <- esp[i]
+    tab[i,2] <- vt$statistic[[1]]
+    tab[i,3] <- vt$p.value[[1]]
+  }
+  return(tab)
+}
+my_anova(data_set_nest$data[[1]])
+data_set_nest <- data_set_nest |> 
+  mutate(
+    anova = map(data,my_anova)
+  )
+data_set_nest$anova[[1]]
+
+```
 
 ```{r}
 datas <- data_set %>% 
   pull(data) %>% 
   unique()
 glimpse(data_set)
-```
-```{r}
-my_estat_desc <- function(x){
-  media = mean(x)
-  mediana = median(x)
-  dp = sd(x)
-  cv = 100*dp/media
-  ca = agricolae::skewness(x)
-  cc = agricolae::kurtosis(x)
-  c(media,mediana,dp,cv,ca,cc)
-}
-
-nome_estat = rep(c("Media",
-                   "Mediana",
-                   "Desvpad",
-                   "Coef_var",
-                   "Coef_assim",
-                   "Coef_curt"))
-
-data_set %>% 
-  group_by(data, amostra) %>% 
-  summarise(
-    across(
-      where(is.numeric), my_estat_desc
-    )
-  ) %>%
-  mutate(stat = nome_estat,
-         .after = amostra)
 ```
 
 

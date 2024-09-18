@@ -26,25 +26,11 @@ quimica <- readr::read_rds("data/quimica-macrofita")
 
 ``` r
 quimica |> 
-  group_by(data,amostra) |> 
-  summarise(across(where(is.numeric),estatisticas))
-#> # A tibble: 42 × 17
-#> # Groups:   data, amostra [7]
-#>    data                amostra      n      p       k     ca     mg      s     b
-#>    <dttm>              <chr>    <dbl>  <dbl>   <dbl>  <dbl>  <dbl>  <dbl> <dbl>
-#>  1 2018-02-01 00:00:00 brasu    9.58   0.52  11.8     1.38   1.22   1.94   7.4 
-#>  2 2018-02-01 00:00:00 brasu    9.5    0.5   13.6     1.4    1.2    2.1    6   
-#>  3 2018-02-01 00:00:00 brasu    2.07   0.130  6.13    0.567  0.356  0.416  3.44
-#>  4 2018-02-01 00:00:00 brasu   21.6   25.1   52.1    41.1   29.2   21.4   46.4 
-#>  5 2018-02-01 00:00:00 brasu    0.510  0.541  0.0465  0.174 -0.272 -0.575  1.35
-#>  6 2018-02-01 00:00:00 brasu   -0.904 -1.49  -1.56    1.91   1.78  -2.46   2.10
-#>  7 2018-02-01 00:00:00 eiccr   18.3    1.98  38.1    17.5    5.42   2.44  33.2 
-#>  8 2018-02-01 00:00:00 eiccr   20      2.1   36.2    17.6    5.4    2.5   34   
-#>  9 2018-02-01 00:00:00 eiccr    2.66   0.409  4.22    1.96   0.482  0.279  2.59
-#> 10 2018-02-01 00:00:00 eiccr   14.6   20.6   11.1    11.2    8.89  11.4    7.80
-#> # ℹ 32 more rows
-#> # ℹ 8 more variables: cu <dbl>, fe <dbl>, mn <dbl>, zn <dbl>, cd <dbl>,
-#> #   ni <dbl>, cr <dbl>, pb <dbl>
+  group_by(data, amostra) |> 
+  summarise(across(where(is.numeric),estatisticas)) |> 
+  mutate(estatistica = c("Media","Mediana","Desv-pad","CV","CA","CC"),
+         .after = amostra) |> 
+  writexl::write_xlsx("outputs/estat-desc-quimica.xlsx")
 ```
 
 ``` r

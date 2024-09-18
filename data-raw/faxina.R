@@ -9,6 +9,7 @@ df <- readxl::read_xlsx("data-raw/dadoscpfl.xlsx",
   janitor::clean_names() |>
   dplyr::mutate(
     amostra = stringr::str_to_lower(amostra),
+    amostra = ifelse(amostra == "pisst","piist",amostra),
     cd = as.numeric(ifelse(cd == "<1",0.5,cd)),
     cr = as.numeric(ifelse(cr == "<1",0.5,cr)),
     pb = as.numeric(ifelse(pb == "<1",0.5,pb))

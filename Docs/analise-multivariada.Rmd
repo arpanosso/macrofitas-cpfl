@@ -42,6 +42,8 @@ data_set |>
          .after = amostra) |> 
   gt::gt()
 ```
+
+
 ```{r}
 data_set |> 
   mutate(data = ymd(data)) |> 
@@ -52,6 +54,7 @@ data_set |>
          .after = amostra) |> 
   gt::gt()
 ```
+
 ## Existem diferenças significativas entre as médias dos nutrientes dentro de uma data e entre as datas?
 
 ```{r}
@@ -72,6 +75,30 @@ data_set_nest |>
   unnest(anova) |> 
   select(-data) |> 
   gt::gt()
+```
+
+### teste Entre datas
+```{r}
+my_macrof <- data_set$amostra |> unique()
+my_macrof <- my_macrof[-4]
+nutrientes <- data_set |> names()
+nutrientes <- nutrientes[3:17]
+for(i in seq_along(nutrientes)){
+  for( j in seq_along(my_macrof)){
+    print("====================================")
+    print(paste0("Macrófita: ",my_macrof[j],"; Nutriente: ",nutrientes[i]))
+    print("====================================")
+    vn<- data_set |> 
+      filter(amostra == my_macrof[j]) |> 
+      select(nutrientes[i]) |> pull(nutrientes[i])
+    data <- data_set |> 
+      filter(amostra == my_macrof[j]) |> pull(data)
+    
+    print(t.test(vn ~ data))
+
+    }
+}
+
 ```
 
 

@@ -398,7 +398,7 @@ for(i in seq_along(variaveis)){
   resp &lt;- data_set_aux %&gt;% 
     select(variaveis[i]) %&gt;% 
     pull(variaveis[i])
-  fat2.ad.dic(planta,dose,rep,resp,respad,
+  fat2.ad.dic(planta,dose,rep,resp,respad,sigF = 0.5,
               fac.names = c(&quot;Planta&quot;,&quot;Dose&quot;))
 }
 #&gt; [1] &quot;##########################################&quot;
@@ -436,26 +436,110 @@ for(i in seq_along(variaveis)){
 #&gt; Fatorial  43.76667 b
 #&gt; ------------------------------------------------------------------------
 #&gt; 
-#&gt; Interacao nao significativa: analisando os efeitos simples
+#&gt; 
+#&gt; 
+#&gt; Interacao significativa: desdobrando a interacao
 #&gt; ------------------------------------------------------------------------
-#&gt; Planta
+#&gt; 
+#&gt; Desdobrando  Planta  dentro de cada nivel de  Dose 
+#&gt; ------------------------------------------------------------------------
+#&gt; ------------------------------------------------------------------------
+#&gt; Quadro da analise de variancia
+#&gt; ------------------------------------------------------------------------
+#&gt;                     GL        SQ        QM      Fc  Pr&gt;Fc
+#&gt; Dose                 2  238.2817 119.14083 16.6989      0
+#&gt; Planta:Dose 05 t/ha  2  122.5817  61.29083  8.5906 0.0011
+#&gt; Planta:Dose 10 t/ha  2  383.7517 191.87583 26.8935      0
+#&gt; Planta:Dose 20 t/ha  2  302.5050  151.2525 21.1997      0
+#&gt; Ad vs Fatorial       1  289.4440   289.444 40.5687      0
+#&gt; Residuo             30  214.0400   7.13467               
+#&gt; Total               39 1550.6040                         
+#&gt; ------------------------------------------------------------------------
+#&gt; 
+#&gt; 
+#&gt; 
+#&gt;  Planta  dentro do nivel  05 t/ha  de  Dose 
+#&gt; ------------------------------------------------------------------------
 #&gt; Teste de Tukey
 #&gt; ------------------------------------------------------------------------
 #&gt; Grupos Tratamentos Medias
-#&gt; a     PIIST   50.05 
-#&gt;  b    EICCR   41.84167 
-#&gt;  b    BRASU   39.40833 
+#&gt; a     PIIST   46.35 
+#&gt; ab    EICCR   42.225 
+#&gt;  b    BRASU   38.525 
 #&gt; ------------------------------------------------------------------------
 #&gt; 
-#&gt; Dose
+#&gt; 
+#&gt;  Planta  dentro do nivel  10 t/ha  de  Dose 
+#&gt; ------------------------------------------------------------------------
 #&gt; Teste de Tukey
 #&gt; ------------------------------------------------------------------------
 #&gt; Grupos Tratamentos Medias
-#&gt; a     20 t/ha     47.375 
-#&gt;  b    05 t/ha     42.36667 
-#&gt;  b    10 t/ha     41.55833 
+#&gt; a     PIIST   49.55 
+#&gt;  b    EICCR   37.825 
+#&gt;  b    BRASU   37.3 
 #&gt; ------------------------------------------------------------------------
 #&gt; 
+#&gt; 
+#&gt;  Planta  dentro do nivel  20 t/ha  de  Dose 
+#&gt; ------------------------------------------------------------------------
+#&gt; Teste de Tukey
+#&gt; ------------------------------------------------------------------------
+#&gt; Grupos Tratamentos Medias
+#&gt; a     PIIST   54.25 
+#&gt;  b    EICCR   45.475 
+#&gt;  b    BRASU   42.4 
+#&gt; ------------------------------------------------------------------------
+#&gt; 
+#&gt; 
+#&gt; 
+#&gt; Desdobrando  Dose  dentro de cada nivel de  Planta 
+#&gt; ------------------------------------------------------------------------
+#&gt; ------------------------------------------------------------------------
+#&gt; Quadro da analise de variancia
+#&gt; ------------------------------------------------------------------------
+#&gt;                   GL         SQ        QM      Fc  Pr&gt;Fc
+#&gt; Planta             2  746.17167 373.08583  52.292      0
+#&gt; Dose:Planta BRASU  2   56.70167  28.35083  3.9737 0.0295
+#&gt; Dose:Planta EICCR  2  117.92667  58.96333  8.2643 0.0014
+#&gt; Dose:Planta PIIST  2  126.32000     63.16  8.8526  0.001
+#&gt; Ad vs Fatorial     1  289.44400   289.444 40.5687      0
+#&gt; Residuo           30  214.04000   7.13467               
+#&gt; Total             39 1550.60400                         
+#&gt; ------------------------------------------------------------------------
+#&gt; 
+#&gt; 
+#&gt; 
+#&gt;  Dose  dentro do nivel  BRASU  de  Planta 
+#&gt; ------------------------------------------------------------------------
+#&gt; Teste de Tukey
+#&gt; ------------------------------------------------------------------------
+#&gt; Grupos Tratamentos Medias
+#&gt; a     20 t/ha     42.4 
+#&gt; ab    05 t/ha     38.525 
+#&gt;  b    10 t/ha     37.3 
+#&gt; ------------------------------------------------------------------------
+#&gt; 
+#&gt; 
+#&gt;  Dose  dentro do nivel  EICCR  de  Planta 
+#&gt; ------------------------------------------------------------------------
+#&gt; Teste de Tukey
+#&gt; ------------------------------------------------------------------------
+#&gt; Grupos Tratamentos Medias
+#&gt; a     20 t/ha     45.475 
+#&gt; ab    05 t/ha     42.225 
+#&gt;  b    10 t/ha     37.825 
+#&gt; ------------------------------------------------------------------------
+#&gt; 
+#&gt; 
+#&gt;  Dose  dentro do nivel  PIIST  de  Planta 
+#&gt; ------------------------------------------------------------------------
+#&gt; Teste de Tukey
+#&gt; ------------------------------------------------------------------------
+#&gt; Grupos Tratamentos Medias
+#&gt; a     20 t/ha     54.25 
+#&gt;  b    10 t/ha     49.55 
+#&gt;  b    05 t/ha     46.35 
+#&gt; ------------------------------------------------------------------------
 #&gt; [1] &quot;##########################################&quot;
 #&gt; [1] &quot;ANOVA para:  perfilho&quot;
 #&gt; [1] &quot;##########################################&quot;
@@ -769,24 +853,109 @@ for(i in seq_along(variaveis)){
 #&gt; Fatorial  1.450062 b
 #&gt; ------------------------------------------------------------------------
 #&gt; 
-#&gt; Interacao nao significativa: analisando os efeitos simples
+#&gt; 
+#&gt; 
+#&gt; Interacao significativa: desdobrando a interacao
 #&gt; ------------------------------------------------------------------------
-#&gt; Planta
+#&gt; 
+#&gt; Desdobrando  Planta  dentro de cada nivel de  Dose 
+#&gt; ------------------------------------------------------------------------
+#&gt; ------------------------------------------------------------------------
+#&gt; Quadro da analise de variancia
+#&gt; ------------------------------------------------------------------------
+#&gt;                     GL      SQ      QM      Fc  Pr&gt;Fc
+#&gt; Dose                 2 0.05467 0.02734  0.8678 0.4301
+#&gt; Planta:Dose 05 t/ha  2 1.39423 0.69711 22.1303      0
+#&gt; Planta:Dose 10 t/ha  2 0.39407 0.19703   6.255 0.0054
+#&gt; Planta:Dose 20 t/ha  2 0.53723 0.26861  8.5273 0.0012
+#&gt; Ad vs Fatorial       1 0.44116 0.44116 14.0048  8e-04
+#&gt; Residuo             30 0.94501  0.0315               
+#&gt; Total               39 3.76637                       
+#&gt; ------------------------------------------------------------------------
+#&gt; 
+#&gt; 
+#&gt; 
+#&gt;  Planta  dentro do nivel  05 t/ha  de  Dose 
+#&gt; ------------------------------------------------------------------------
 #&gt; Teste de Tukey
 #&gt; ------------------------------------------------------------------------
 #&gt; Grupos Tratamentos Medias
-#&gt; a     PIIST   1.625487 
-#&gt; a     EICCR   1.620053 
-#&gt;  b    BRASU   1.104647 
+#&gt; a     PIIST   1.6819 
+#&gt; a     EICCR   1.63064 
+#&gt;  b    BRASU   0.93456 
 #&gt; ------------------------------------------------------------------------
 #&gt; 
-#&gt; Dose
+#&gt; 
+#&gt;  Planta  dentro do nivel  10 t/ha  de  Dose 
+#&gt; ------------------------------------------------------------------------
+#&gt; Teste de Tukey
+#&gt; ------------------------------------------------------------------------
+#&gt; Grupos Tratamentos Medias
+#&gt; a     EICCR   1.63812 
+#&gt; a     PIIST   1.6272 
+#&gt;  b    BRASU   1.24836 
+#&gt; ------------------------------------------------------------------------
+#&gt; 
+#&gt; 
+#&gt;  Planta  dentro do nivel  20 t/ha  de  Dose 
+#&gt; ------------------------------------------------------------------------
+#&gt; Teste de Tukey
+#&gt; ------------------------------------------------------------------------
+#&gt; Grupos Tratamentos Medias
+#&gt; a     EICCR   1.5914 
+#&gt; a     PIIST   1.56736 
+#&gt;  b    BRASU   1.13102 
+#&gt; ------------------------------------------------------------------------
+#&gt; 
+#&gt; 
+#&gt; 
+#&gt; Desdobrando  Dose  dentro de cada nivel de  Planta 
+#&gt; ------------------------------------------------------------------------
+#&gt; ------------------------------------------------------------------------
+#&gt; Quadro da analise de variancia
+#&gt; ------------------------------------------------------------------------
+#&gt;                   GL      SQ      QM      Fc  Pr&gt;Fc
+#&gt; Planta             2 2.14779  1.0739 34.0915      0
+#&gt; Dose:Planta BRASU  2 0.20111 0.10056  3.1922 0.0553
+#&gt; Dose:Planta EICCR  2 0.00504 0.00252    0.08 0.9233
+#&gt; Dose:Planta PIIST  2 0.02626 0.01313  0.4168 0.6629
+#&gt; Ad vs Fatorial     1 0.44116 0.44116 14.0048  8e-04
+#&gt; Residuo           30 0.94501  0.0315               
+#&gt; Total             39 3.76637                       
+#&gt; ------------------------------------------------------------------------
+#&gt; 
+#&gt; 
+#&gt; 
+#&gt;  Dose  dentro do nivel  BRASU  de  Planta 
+#&gt; ------------------------------------------------------------------------
+#&gt; Teste de Tukey
+#&gt; ------------------------------------------------------------------------
+#&gt; Grupos Tratamentos Medias
+#&gt; a     10 t/ha     1.24836 
+#&gt; ab    20 t/ha     1.13102 
+#&gt;  b    05 t/ha     0.93456 
+#&gt; ------------------------------------------------------------------------
+#&gt; 
+#&gt; 
+#&gt;  Dose  dentro do nivel  EICCR  de  Planta 
+#&gt; 
 #&gt; De acordo com o teste F, as medias desse fator sao estatisticamente iguais.
 #&gt; ------------------------------------------------------------------------
-#&gt;    Niveis   Medias
-#&gt; 1 05 t/ha 1.415700
-#&gt; 2 10 t/ha 1.504560
-#&gt; 3 20 t/ha 1.429927
+#&gt;    Niveis  Medias
+#&gt; 1 05 t/ha 1.63064
+#&gt; 2 10 t/ha 1.63812
+#&gt; 3 20 t/ha 1.59140
+#&gt; ------------------------------------------------------------------------
+#&gt; 
+#&gt; 
+#&gt;  Dose  dentro do nivel  PIIST  de  Planta 
+#&gt; 
+#&gt; De acordo com o teste F, as medias desse fator sao estatisticamente iguais.
+#&gt; ------------------------------------------------------------------------
+#&gt;    Niveis  Medias
+#&gt; 1 05 t/ha 1.68190
+#&gt; 2 10 t/ha 1.62720
+#&gt; 3 20 t/ha 1.56736
 #&gt; ------------------------------------------------------------------------</code></pre>
 </div>
 

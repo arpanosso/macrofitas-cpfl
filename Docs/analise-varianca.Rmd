@@ -56,7 +56,7 @@ for(i in seq_along(variaveis)){
   resp <- data_set_aux %>% 
     select(variaveis[i]) %>% 
     pull(variaveis[i])
-  fat2.ad.dic(planta,dose,rep,resp,respad,
+  fat2.ad.dic(planta,dose,rep,resp,respad,sigF = 0.5,
               fac.names = c("Planta","Dose"))
 }
 

@@ -199,7 +199,7 @@ for(i in seq_along(datas)){
   print(graf)
   
   print("==== Tabela da correlação dos atributos com cada PC ====")
-  ck<-sum(pca$sdev^2>=0.98)
+  ck<- 3 # sum(pca$sdev^2>=0.98)
   tabelapca<-vector()
   for( l in 1:ck) tabelapca<-cbind(tabelapca,mcor[,l])
   colnames(tabelapca)<-paste(rep(c("PC"),ck),1:ck,sep="")

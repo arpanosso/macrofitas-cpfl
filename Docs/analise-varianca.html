@@ -415,7 +415,7 @@ for(i in seq_along(variaveis)){
   resp &lt;- data_set_aux %&gt;% 
     select(variaveis[i]) %&gt;% 
     pull(variaveis[i])
-  fat2.ad.dic(planta,dose,rep,resp,respad,
+  fat2.ad.dic(planta,dose,rep,resp,respad,sigF = 0.5,
               fac.names = c(&quot;Planta&quot;,&quot;Dose&quot;))
 }
 #&gt; [1] &quot;##########################################&quot;
@@ -452,26 +452,110 @@ for(i in seq_along(variaveis)){
 #&gt; Fatorial  9.911111 b
 #&gt; ------------------------------------------------------------------------
 #&gt; 
-#&gt; Interacao nao significativa: analisando os efeitos simples
+#&gt; 
+#&gt; 
+#&gt; Interacao significativa: desdobrando a interacao
 #&gt; ------------------------------------------------------------------------
-#&gt; Planta
+#&gt; 
+#&gt; Desdobrando  Planta  dentro de cada nivel de  Dose 
+#&gt; ------------------------------------------------------------------------
+#&gt; ------------------------------------------------------------------------
+#&gt; Quadro da analise de variancia
+#&gt; ------------------------------------------------------------------------
+#&gt;                  GL        SQ       QM     Fc  Pr&gt;Fc
+#&gt; Dose              2  80.31111 40.15556 6.2257 0.0044
+#&gt; Planta:Dose 13.5  2  16.53333  8.26667 1.2817 0.2887
+#&gt; Planta:Dose 27    2  15.60000      7.8 1.2093 0.3091
+#&gt; Planta:Dose 40    2  37.20000     18.6 2.8837 0.0676
+#&gt; Ad vs Fatorial    1  38.13556 38.13556 5.9125 0.0196
+#&gt; Residuo          40 258.00000     6.45              
+#&gt; Total            49 445.78000                       
+#&gt; ------------------------------------------------------------------------
+#&gt; 
+#&gt; 
+#&gt; 
+#&gt;  Planta  dentro do nivel  13.5  de  Dose 
+#&gt; ------------------------------------------------------------------------
 #&gt; Teste de Tukey
 #&gt; ------------------------------------------------------------------------
 #&gt; Grupos Tratamentos Medias
-#&gt; a     eiccr   11.13333 
-#&gt; ab    pisst   9.866667 
-#&gt;  b    brasu   8.733333 
+#&gt; a     eiccr   9.8 
+#&gt; a     pisst   7.8 
+#&gt; a     brasu   7.4 
 #&gt; ------------------------------------------------------------------------
 #&gt; 
-#&gt; Dose
+#&gt; 
+#&gt;  Planta  dentro do nivel  27  de  Dose 
+#&gt; ------------------------------------------------------------------------
 #&gt; Teste de Tukey
 #&gt; ------------------------------------------------------------------------
 #&gt; Grupos Tratamentos Medias
-#&gt; a     40      11.6 
-#&gt; ab    27      9.8 
-#&gt;  b    13.5    8.333333 
+#&gt; a     eiccr   11.2 
+#&gt; a     brasu   9.4 
+#&gt; a     pisst   8.8 
 #&gt; ------------------------------------------------------------------------
 #&gt; 
+#&gt; 
+#&gt;  Planta  dentro do nivel  40  de  Dose 
+#&gt; ------------------------------------------------------------------------
+#&gt; Teste de Tukey
+#&gt; ------------------------------------------------------------------------
+#&gt; Grupos Tratamentos Medias
+#&gt; a     pisst   13 
+#&gt; a     eiccr   12.4 
+#&gt; a     brasu   9.4 
+#&gt; ------------------------------------------------------------------------
+#&gt; 
+#&gt; 
+#&gt; 
+#&gt; Desdobrando  Dose  dentro de cada nivel de  Planta 
+#&gt; ------------------------------------------------------------------------
+#&gt; ------------------------------------------------------------------------
+#&gt; Quadro da analise de variancia
+#&gt; ------------------------------------------------------------------------
+#&gt;                   GL        SQ       QM     Fc  Pr&gt;Fc
+#&gt; Planta             2  43.24444 21.62222 3.3523 0.0451
+#&gt; Dose:Planta brasu  2  13.33333  6.66667 1.0336  0.365
+#&gt; Dose:Planta eiccr  2  16.93333  8.46667 1.3127 0.2804
+#&gt; Dose:Planta pisst  2  76.13333 38.06667 5.9018 0.0057
+#&gt; Ad vs Fatorial     1  38.13556 38.13556 5.9125 0.0196
+#&gt; Residuo           40 258.00000     6.45              
+#&gt; Total             49 445.78000                       
+#&gt; ------------------------------------------------------------------------
+#&gt; 
+#&gt; 
+#&gt; 
+#&gt;  Dose  dentro do nivel  brasu  de  Planta 
+#&gt; ------------------------------------------------------------------------
+#&gt; Teste de Tukey
+#&gt; ------------------------------------------------------------------------
+#&gt; Grupos Tratamentos Medias
+#&gt; a     27      9.4 
+#&gt; a     40      9.4 
+#&gt; a     13.5    7.4 
+#&gt; ------------------------------------------------------------------------
+#&gt; 
+#&gt; 
+#&gt;  Dose  dentro do nivel  eiccr  de  Planta 
+#&gt; ------------------------------------------------------------------------
+#&gt; Teste de Tukey
+#&gt; ------------------------------------------------------------------------
+#&gt; Grupos Tratamentos Medias
+#&gt; a     40      12.4 
+#&gt; a     27      11.2 
+#&gt; a     13.5    9.8 
+#&gt; ------------------------------------------------------------------------
+#&gt; 
+#&gt; 
+#&gt;  Dose  dentro do nivel  pisst  de  Planta 
+#&gt; ------------------------------------------------------------------------
+#&gt; Teste de Tukey
+#&gt; ------------------------------------------------------------------------
+#&gt; Grupos Tratamentos Medias
+#&gt; a     40      13 
+#&gt;  b    27      8.8 
+#&gt;  b    13.5    7.8 
+#&gt; ------------------------------------------------------------------------
 #&gt; [1] &quot;##########################################&quot;
 #&gt; [1] &quot;ANOVA para:  p_h&quot;
 #&gt; [1] &quot;##########################################&quot;
@@ -581,13 +665,13 @@ for(i in seq_along(variaveis)){
 #&gt; 
 #&gt; 
 #&gt;  Dose  dentro do nivel  brasu  de  Planta 
-#&gt; 
-#&gt; De acordo com o teste F, as medias desse fator sao estatisticamente iguais.
 #&gt; ------------------------------------------------------------------------
-#&gt;   Niveis Medias
-#&gt; 1   13.5   5.90
-#&gt; 2     27   6.00
-#&gt; 3     40   6.02
+#&gt; Teste de Tukey
+#&gt; ------------------------------------------------------------------------
+#&gt; Grupos Tratamentos Medias
+#&gt; a     40      6.02 
+#&gt; a     27      6 
+#&gt; a     13.5    5.9 
 #&gt; ------------------------------------------------------------------------
 #&gt; 
 #&gt; 
@@ -997,13 +1081,13 @@ for(i in seq_along(variaveis)){
 #&gt; 
 #&gt; 
 #&gt;  Dose  dentro do nivel  brasu  de  Planta 
-#&gt; 
-#&gt; De acordo com o teste F, as medias desse fator sao estatisticamente iguais.
 #&gt; ------------------------------------------------------------------------
-#&gt;   Niveis Medias
-#&gt; 1   13.5 17.812
-#&gt; 2     27 19.524
-#&gt; 3     40 18.420
+#&gt; Teste de Tukey
+#&gt; ------------------------------------------------------------------------
+#&gt; Grupos Tratamentos Medias
+#&gt; a     27      19.524 
+#&gt; a     40      18.42 
+#&gt; a     13.5    17.812 
 #&gt; ------------------------------------------------------------------------
 #&gt; 
 #&gt; 
@@ -1136,13 +1220,13 @@ for(i in seq_along(variaveis)){
 #&gt; 
 #&gt; 
 #&gt;  Dose  dentro do nivel  brasu  de  Planta 
-#&gt; 
-#&gt; De acordo com o teste F, as medias desse fator sao estatisticamente iguais.
 #&gt; ------------------------------------------------------------------------
-#&gt;   Niveis Medias
-#&gt; 1   13.5  6.232
-#&gt; 2     27  6.806
-#&gt; 3     40  6.544
+#&gt; Teste de Tukey
+#&gt; ------------------------------------------------------------------------
+#&gt; Grupos Tratamentos Medias
+#&gt; a     27      6.806 
+#&gt; a     40      6.544 
+#&gt; a     13.5    6.232 
 #&gt; ------------------------------------------------------------------------
 #&gt; 
 #&gt; 
@@ -1298,13 +1382,13 @@ for(i in seq_along(variaveis)){
 #&gt; 
 #&gt; 
 #&gt;  Dose  dentro do nivel  pisst  de  Planta 
-#&gt; 
-#&gt; De acordo com o teste F, as medias desse fator sao estatisticamente iguais.
 #&gt; ------------------------------------------------------------------------
-#&gt;   Niveis Medias
-#&gt; 1   13.5  0.156
-#&gt; 2     27  0.142
-#&gt; 3     40  0.172
+#&gt; Teste de Tukey
+#&gt; ------------------------------------------------------------------------
+#&gt; Grupos Tratamentos Medias
+#&gt; a     40      0.172 
+#&gt; a     13.5    0.156 
+#&gt; a     27      0.142 
 #&gt; ------------------------------------------------------------------------
 #&gt; [1] &quot;##########################################&quot;
 #&gt; [1] &quot;ANOVA para:  h_al&quot;
@@ -1897,26 +1981,110 @@ for(i in seq_along(variaveis)){
 #&gt; Fatorial  74.50067 b
 #&gt; ------------------------------------------------------------------------
 #&gt; 
-#&gt; Interacao nao significativa: analisando os efeitos simples
+#&gt; 
+#&gt; 
+#&gt; Interacao significativa: desdobrando a interacao
 #&gt; ------------------------------------------------------------------------
-#&gt; Planta
+#&gt; 
+#&gt; Desdobrando  Planta  dentro de cada nivel de  Dose 
+#&gt; ------------------------------------------------------------------------
+#&gt; ------------------------------------------------------------------------
+#&gt; Quadro da analise de variancia
+#&gt; ------------------------------------------------------------------------
+#&gt;                  GL        SQ        QM       Fc Pr&gt;Fc
+#&gt; Dose              2  470.3915 235.19573   45.768     0
+#&gt; Planta:Dose 13.5  2  340.3898 170.19488  33.1192     0
+#&gt; Planta:Dose 27    2  336.4948 168.24741  32.7402     0
+#&gt; Planta:Dose 40    2  704.5698 352.28489  68.5531     0
+#&gt; Ad vs Fatorial    1  968.0000       968 188.3684     0
+#&gt; Residuo          40  205.5546   5.13886               
+#&gt; Total            49 3025.4004                         
+#&gt; ------------------------------------------------------------------------
+#&gt; 
+#&gt; 
+#&gt; 
+#&gt;  Planta  dentro do nivel  13.5  de  Dose 
+#&gt; ------------------------------------------------------------------------
 #&gt; Teste de Tukey
 #&gt; ------------------------------------------------------------------------
 #&gt; Grupos Tratamentos Medias
-#&gt; a     pisst   81.69333 
-#&gt;  b    eiccr   73.27067 
-#&gt;   c   brasu   68.538 
+#&gt; a     pisst   76.324 
+#&gt;  b    eiccr   68.708 
+#&gt;   c   brasu   64.86 
 #&gt; ------------------------------------------------------------------------
 #&gt; 
-#&gt; Dose
+#&gt; 
+#&gt;  Planta  dentro do nivel  27  de  Dose 
+#&gt; ------------------------------------------------------------------------
 #&gt; Teste de Tukey
 #&gt; ------------------------------------------------------------------------
 #&gt; Grupos Tratamentos Medias
-#&gt; a     40      77.26267 
-#&gt; a     27      76.27533 
-#&gt;  b    13.5    69.964 
+#&gt; a     pisst   82.278 
+#&gt;  b    eiccr   75.848 
+#&gt;   c   brasu   70.7 
 #&gt; ------------------------------------------------------------------------
 #&gt; 
+#&gt; 
+#&gt;  Planta  dentro do nivel  40  de  Dose 
+#&gt; ------------------------------------------------------------------------
+#&gt; Teste de Tukey
+#&gt; ------------------------------------------------------------------------
+#&gt; Grupos Tratamentos Medias
+#&gt; a     pisst   86.478 
+#&gt;  b    eiccr   75.256 
+#&gt;   c   brasu   70.054 
+#&gt; ------------------------------------------------------------------------
+#&gt; 
+#&gt; 
+#&gt; 
+#&gt; Desdobrando  Dose  dentro de cada nivel de  Planta 
+#&gt; ------------------------------------------------------------------------
+#&gt; ------------------------------------------------------------------------
+#&gt; Quadro da analise de variancia
+#&gt; ------------------------------------------------------------------------
+#&gt;                   GL        SQ        QM       Fc Pr&gt;Fc
+#&gt; Planta             2 1332.0112 666.00561 129.6017     0
+#&gt; Dose:Planta brasu  2  102.5009  51.25046   9.9731 3e-04
+#&gt; Dose:Planta eiccr  2  157.0106  78.50531  15.2768     0
+#&gt; Dose:Planta pisst  2  260.3231 130.16153  25.3288     0
+#&gt; Ad vs Fatorial     1  968.0000       968 188.3684     0
+#&gt; Residuo           40  205.5546   5.13886               
+#&gt; Total             49 3025.4004                         
+#&gt; ------------------------------------------------------------------------
+#&gt; 
+#&gt; 
+#&gt; 
+#&gt;  Dose  dentro do nivel  brasu  de  Planta 
+#&gt; ------------------------------------------------------------------------
+#&gt; Teste de Tukey
+#&gt; ------------------------------------------------------------------------
+#&gt; Grupos Tratamentos Medias
+#&gt; a     27      70.7 
+#&gt; a     40      70.054 
+#&gt;  b    13.5    64.86 
+#&gt; ------------------------------------------------------------------------
+#&gt; 
+#&gt; 
+#&gt;  Dose  dentro do nivel  eiccr  de  Planta 
+#&gt; ------------------------------------------------------------------------
+#&gt; Teste de Tukey
+#&gt; ------------------------------------------------------------------------
+#&gt; Grupos Tratamentos Medias
+#&gt; a     27      75.848 
+#&gt; a     40      75.256 
+#&gt;  b    13.5    68.708 
+#&gt; ------------------------------------------------------------------------
+#&gt; 
+#&gt; 
+#&gt;  Dose  dentro do nivel  pisst  de  Planta 
+#&gt; ------------------------------------------------------------------------
+#&gt; Teste de Tukey
+#&gt; ------------------------------------------------------------------------
+#&gt; Grupos Tratamentos Medias
+#&gt; a     40      86.478 
+#&gt;  b    27      82.278 
+#&gt;   c   13.5    76.324 
+#&gt; ------------------------------------------------------------------------
 #&gt; [1] &quot;##########################################&quot;
 #&gt; [1] &quot;ANOVA para:  b&quot;
 #&gt; [1] &quot;##########################################&quot;
@@ -1947,32 +2115,115 @@ for(i in seq_along(variaveis)){
 #&gt; 
 #&gt; Contraste do tratamento adicional com o fatorial
 #&gt; ------------------------------------------------------------------------
-#&gt; De acordo com o teste F, as medias dos dois grupos sao estatisticamente iguais.
-#&gt;              Medias
-#&gt; Adicional 0.1940000
-#&gt; Fatorial  0.2026667
+#&gt;              Medias  
+#&gt; Adicional 0.1940000 a
+#&gt; Fatorial  0.2026667 b
 #&gt; ------------------------------------------------------------------------
 #&gt; 
-#&gt; Interacao nao significativa: analisando os efeitos simples
+#&gt; 
+#&gt; 
+#&gt; Interacao significativa: desdobrando a interacao
 #&gt; ------------------------------------------------------------------------
-#&gt; Planta
+#&gt; 
+#&gt; Desdobrando  Planta  dentro de cada nivel de  Dose 
+#&gt; ------------------------------------------------------------------------
+#&gt; ------------------------------------------------------------------------
+#&gt; Quadro da analise de variancia
+#&gt; ------------------------------------------------------------------------
+#&gt;                  GL      SQ      QM      Fc  Pr&gt;Fc
+#&gt; Dose              2 0.00681 0.00341  7.3578 0.0019
+#&gt; Planta:Dose 13.5  2 0.01612 0.00806 17.4082      0
+#&gt; Planta:Dose 27    2 0.02137 0.01069 23.0814      0
+#&gt; Planta:Dose 40    2 0.03537 0.01769 38.2001      0
+#&gt; Ad vs Fatorial    1 0.00034 0.00034    0.73  0.398
+#&gt; Residuo          40 0.01852 0.00046               
+#&gt; Total            49 0.09854                       
+#&gt; ------------------------------------------------------------------------
+#&gt; 
+#&gt; 
+#&gt; 
+#&gt;  Planta  dentro do nivel  13.5  de  Dose 
+#&gt; ------------------------------------------------------------------------
 #&gt; Teste de Tukey
 #&gt; ------------------------------------------------------------------------
 #&gt; Grupos Tratamentos Medias
-#&gt; a     pisst   0.2586667 
-#&gt;  b    eiccr   0.176 
-#&gt;  b    brasu   0.1733333 
+#&gt; a     pisst   0.236 
+#&gt;  b    eiccr   0.172 
+#&gt;  b    brasu   0.162 
 #&gt; ------------------------------------------------------------------------
 #&gt; 
-#&gt; Dose
+#&gt; 
+#&gt;  Planta  dentro do nivel  27  de  Dose 
+#&gt; ------------------------------------------------------------------------
 #&gt; Teste de Tukey
 #&gt; ------------------------------------------------------------------------
 #&gt; Grupos Tratamentos Medias
-#&gt; a     40      0.2193333 
-#&gt;  b    27      0.1986667 
-#&gt;  b    13.5    0.19 
+#&gt; a     pisst   0.252 
+#&gt;  b    brasu   0.174 
+#&gt;  b    eiccr   0.17 
 #&gt; ------------------------------------------------------------------------
 #&gt; 
+#&gt; 
+#&gt;  Planta  dentro do nivel  40  de  Dose 
+#&gt; ------------------------------------------------------------------------
+#&gt; Teste de Tukey
+#&gt; ------------------------------------------------------------------------
+#&gt; Grupos Tratamentos Medias
+#&gt; a     pisst   0.288 
+#&gt;  b    eiccr   0.186 
+#&gt;  b    brasu   0.184 
+#&gt; ------------------------------------------------------------------------
+#&gt; 
+#&gt; 
+#&gt; 
+#&gt; Desdobrando  Dose  dentro de cada nivel de  Planta 
+#&gt; ------------------------------------------------------------------------
+#&gt; ------------------------------------------------------------------------
+#&gt; Quadro da analise de variancia
+#&gt; ------------------------------------------------------------------------
+#&gt;                   GL      SQ      QM      Fc  Pr&gt;Fc
+#&gt; Planta             2 0.07061 0.03531 76.2563      0
+#&gt; Dose:Planta brasu  2 0.00121 0.00061  1.3103 0.2811
+#&gt; Dose:Planta eiccr  2 0.00076 0.00038  0.8207 0.4474
+#&gt; Dose:Planta pisst  2 0.00709 0.00355  7.6602 0.0015
+#&gt; Ad vs Fatorial     1 0.00034 0.00034    0.73  0.398
+#&gt; Residuo           40 0.01852 0.00046               
+#&gt; Total             49 0.09854                       
+#&gt; ------------------------------------------------------------------------
+#&gt; 
+#&gt; 
+#&gt; 
+#&gt;  Dose  dentro do nivel  brasu  de  Planta 
+#&gt; ------------------------------------------------------------------------
+#&gt; Teste de Tukey
+#&gt; ------------------------------------------------------------------------
+#&gt; Grupos Tratamentos Medias
+#&gt; a     40      0.184 
+#&gt; a     27      0.174 
+#&gt; a     13.5    0.162 
+#&gt; ------------------------------------------------------------------------
+#&gt; 
+#&gt; 
+#&gt;  Dose  dentro do nivel  eiccr  de  Planta 
+#&gt; ------------------------------------------------------------------------
+#&gt; Teste de Tukey
+#&gt; ------------------------------------------------------------------------
+#&gt; Grupos Tratamentos Medias
+#&gt; a     40      0.186 
+#&gt; a     13.5    0.172 
+#&gt; a     27      0.17 
+#&gt; ------------------------------------------------------------------------
+#&gt; 
+#&gt; 
+#&gt;  Dose  dentro do nivel  pisst  de  Planta 
+#&gt; ------------------------------------------------------------------------
+#&gt; Teste de Tukey
+#&gt; ------------------------------------------------------------------------
+#&gt; Grupos Tratamentos Medias
+#&gt; a     40      0.288 
+#&gt;  b    27      0.252 
+#&gt;  b    13.5    0.236 
+#&gt; ------------------------------------------------------------------------
 #&gt; [1] &quot;##########################################&quot;
 #&gt; [1] &quot;ANOVA para:  cu&quot;
 #&gt; [1] &quot;##########################################&quot;
@@ -2020,13 +2271,14 @@ for(i in seq_along(variaveis)){
 #&gt; ------------------------------------------------------------------------
 #&gt; 
 #&gt; Dose
-#&gt; De acordo com o teste F, as medias desse fator sao estatisticamente iguais.
+#&gt; Teste de Tukey
 #&gt; ------------------------------------------------------------------------
-#&gt;   Niveis    Medias
-#&gt; 1   13.5 0.3066667
-#&gt; 2     27 0.2600000
-#&gt; 3     40 0.2666667
+#&gt; Grupos Tratamentos Medias
+#&gt; a     13.5    0.3066667 
+#&gt; a     40      0.2666667 
+#&gt; a     27      0.26 
 #&gt; ------------------------------------------------------------------------
+#&gt; 
 #&gt; [1] &quot;##########################################&quot;
 #&gt; [1] &quot;ANOVA para:  mn&quot;
 #&gt; [1] &quot;##########################################&quot;
@@ -2201,24 +2453,109 @@ for(i in seq_along(variaveis)){
 #&gt; Fatorial  8.733333
 #&gt; ------------------------------------------------------------------------
 #&gt; 
-#&gt; Interacao nao significativa: analisando os efeitos simples
+#&gt; 
+#&gt; 
+#&gt; Interacao significativa: desdobrando a interacao
 #&gt; ------------------------------------------------------------------------
-#&gt; Planta
+#&gt; 
+#&gt; Desdobrando  Planta  dentro de cada nivel de  Dose 
+#&gt; ------------------------------------------------------------------------
+#&gt; ------------------------------------------------------------------------
+#&gt; Quadro da analise de variancia
+#&gt; ------------------------------------------------------------------------
+#&gt;                  GL       SQ      QM      Fc  Pr&gt;Fc
+#&gt; Dose              2  0.93333 0.46667  1.2281 0.3037
+#&gt; Planta:Dose 13.5  2 14.80000     7.4 19.4737      0
+#&gt; Planta:Dose 27    2 12.93333 6.46667 17.0175      0
+#&gt; Planta:Dose 40    2 10.13333 5.06667 13.3333      0
+#&gt; Ad vs Fatorial    1  0.08000    0.08  0.2105 0.6488
+#&gt; Residuo          40 15.20000    0.38               
+#&gt; Total            49 54.08000                       
+#&gt; ------------------------------------------------------------------------
+#&gt; 
+#&gt; 
+#&gt; 
+#&gt;  Planta  dentro do nivel  13.5  de  Dose 
+#&gt; ------------------------------------------------------------------------
+#&gt; Teste de Tukey
+#&gt; ------------------------------------------------------------------------
+#&gt; Grupos Tratamentos Medias
+#&gt; a     brasu   9.4 
+#&gt; a     eiccr   9.2 
+#&gt;  b    pisst   7.2 
+#&gt; ------------------------------------------------------------------------
+#&gt; 
+#&gt; 
+#&gt;  Planta  dentro do nivel  27  de  Dose 
+#&gt; ------------------------------------------------------------------------
 #&gt; Teste de Tukey
 #&gt; ------------------------------------------------------------------------
 #&gt; Grupos Tratamentos Medias
 #&gt; a     eiccr   9.6 
-#&gt; a     brasu   9.066667 
-#&gt;  b    pisst   7.533333 
+#&gt; a     brasu   9 
+#&gt;  b    pisst   7.4 
 #&gt; ------------------------------------------------------------------------
 #&gt; 
-#&gt; Dose
-#&gt; De acordo com o teste F, as medias desse fator sao estatisticamente iguais.
+#&gt; 
+#&gt;  Planta  dentro do nivel  40  de  Dose 
 #&gt; ------------------------------------------------------------------------
-#&gt;   Niveis   Medias
-#&gt; 1   13.5 8.600000
-#&gt; 2     27 8.666667
-#&gt; 3     40 8.933333
+#&gt; Teste de Tukey
+#&gt; ------------------------------------------------------------------------
+#&gt; Grupos Tratamentos Medias
+#&gt; a     eiccr   10 
+#&gt;  b    brasu   8.8 
+#&gt;  b    pisst   8 
+#&gt; ------------------------------------------------------------------------
+#&gt; 
+#&gt; 
+#&gt; 
+#&gt; Desdobrando  Dose  dentro de cada nivel de  Planta 
+#&gt; ------------------------------------------------------------------------
+#&gt; ------------------------------------------------------------------------
+#&gt; Quadro da analise de variancia
+#&gt; ------------------------------------------------------------------------
+#&gt;                   GL       SQ       QM      Fc  Pr&gt;Fc
+#&gt; Planta             2 34.53333 17.26667 45.4386      0
+#&gt; Dose:Planta brasu  2  0.93333  0.46667  1.2281 0.3037
+#&gt; Dose:Planta eiccr  2  1.60000      0.8  2.1053 0.1351
+#&gt; Dose:Planta pisst  2  1.73333  0.86667  2.2807 0.1154
+#&gt; Ad vs Fatorial     1  0.08000     0.08  0.2105 0.6488
+#&gt; Residuo           40 15.20000     0.38               
+#&gt; Total             49 54.08000                        
+#&gt; ------------------------------------------------------------------------
+#&gt; 
+#&gt; 
+#&gt; 
+#&gt;  Dose  dentro do nivel  brasu  de  Planta 
+#&gt; ------------------------------------------------------------------------
+#&gt; Teste de Tukey
+#&gt; ------------------------------------------------------------------------
+#&gt; Grupos Tratamentos Medias
+#&gt; a     13.5    9.4 
+#&gt; a     27      9 
+#&gt; a     40      8.8 
+#&gt; ------------------------------------------------------------------------
+#&gt; 
+#&gt; 
+#&gt;  Dose  dentro do nivel  eiccr  de  Planta 
+#&gt; ------------------------------------------------------------------------
+#&gt; Teste de Tukey
+#&gt; ------------------------------------------------------------------------
+#&gt; Grupos Tratamentos Medias
+#&gt; a     40      10 
+#&gt; a     27      9.6 
+#&gt; a     13.5    9.2 
+#&gt; ------------------------------------------------------------------------
+#&gt; 
+#&gt; 
+#&gt;  Dose  dentro do nivel  pisst  de  Planta 
+#&gt; ------------------------------------------------------------------------
+#&gt; Teste de Tukey
+#&gt; ------------------------------------------------------------------------
+#&gt; Grupos Tratamentos Medias
+#&gt; a     40      8 
+#&gt; a     27      7.4 
+#&gt; a     13.5    7.2 
 #&gt; ------------------------------------------------------------------------
 #&gt; [1] &quot;##########################################&quot;
 #&gt; [1] &quot;ANOVA para:  zn&quot;
@@ -2469,13 +2806,13 @@ for(i in seq_along(variaveis)){
 #&gt; 
 #&gt; 
 #&gt;  Dose  dentro do nivel  brasu  de  Planta 
-#&gt; 
-#&gt; De acordo com o teste F, as medias desse fator sao estatisticamente iguais.
 #&gt; ------------------------------------------------------------------------
-#&gt;   Niveis Medias
-#&gt; 1   13.5  0.082
-#&gt; 2     27  0.112
-#&gt; 3     40  0.094
+#&gt; Teste de Tukey
+#&gt; ------------------------------------------------------------------------
+#&gt; Grupos Tratamentos Medias
+#&gt; a     27      0.112 
+#&gt; a     40      0.094 
+#&gt; a     13.5    0.082 
 #&gt; ------------------------------------------------------------------------
 #&gt; 
 #&gt; 
@@ -2534,26 +2871,110 @@ for(i in seq_along(variaveis)){
 #&gt; Fatorial  0.1862222 b
 #&gt; ------------------------------------------------------------------------
 #&gt; 
-#&gt; Interacao nao significativa: analisando os efeitos simples
+#&gt; 
+#&gt; 
+#&gt; Interacao significativa: desdobrando a interacao
 #&gt; ------------------------------------------------------------------------
-#&gt; Planta
+#&gt; 
+#&gt; Desdobrando  Planta  dentro de cada nivel de  Dose 
+#&gt; ------------------------------------------------------------------------
+#&gt; ------------------------------------------------------------------------
+#&gt; Quadro da analise de variancia
+#&gt; ------------------------------------------------------------------------
+#&gt;                  GL      SQ      QM      Fc  Pr&gt;Fc
+#&gt; Dose              2 0.00600   0.003  3.2421 0.0496
+#&gt; Planta:Dose 13.5  2 0.00532 0.00266  2.8726 0.0683
+#&gt; Planta:Dose 27    2 0.00345 0.00173  1.8647 0.1682
+#&gt; Planta:Dose 40    2 0.00496 0.00248  2.6782  0.081
+#&gt; Ad vs Fatorial    1 0.03827 0.03827 41.3307      0
+#&gt; Residuo          40 0.03704 0.00093               
+#&gt; Total            49 0.09505                       
+#&gt; ------------------------------------------------------------------------
+#&gt; 
+#&gt; 
+#&gt; 
+#&gt;  Planta  dentro do nivel  13.5  de  Dose 
+#&gt; ------------------------------------------------------------------------
 #&gt; Teste de Tukey
 #&gt; ------------------------------------------------------------------------
 #&gt; Grupos Tratamentos Medias
-#&gt; a     eiccr   0.2046667 
-#&gt; ab    pisst   0.1786667 
-#&gt;  b    brasu   0.1753333 
+#&gt; a     eiccr   0.196 
+#&gt; a     brasu   0.162 
+#&gt; a     pisst   0.152 
 #&gt; ------------------------------------------------------------------------
 #&gt; 
-#&gt; Dose
+#&gt; 
+#&gt;  Planta  dentro do nivel  27  de  Dose 
+#&gt; ------------------------------------------------------------------------
 #&gt; Teste de Tukey
 #&gt; ------------------------------------------------------------------------
 #&gt; Grupos Tratamentos Medias
-#&gt; a     40      0.196 
-#&gt; a     27      0.1926667 
-#&gt; a     13.5    0.17 
+#&gt; a     pisst   0.208 
+#&gt; a     eiccr   0.198 
+#&gt; a     brasu   0.172 
 #&gt; ------------------------------------------------------------------------
 #&gt; 
+#&gt; 
+#&gt;  Planta  dentro do nivel  40  de  Dose 
+#&gt; ------------------------------------------------------------------------
+#&gt; Teste de Tukey
+#&gt; ------------------------------------------------------------------------
+#&gt; Grupos Tratamentos Medias
+#&gt; a     eiccr   0.22 
+#&gt; a     brasu   0.192 
+#&gt; a     pisst   0.176 
+#&gt; ------------------------------------------------------------------------
+#&gt; 
+#&gt; 
+#&gt; 
+#&gt; Desdobrando  Dose  dentro de cada nivel de  Planta 
+#&gt; ------------------------------------------------------------------------
+#&gt; ------------------------------------------------------------------------
+#&gt; Quadro da analise de variancia
+#&gt; ------------------------------------------------------------------------
+#&gt;                   GL      SQ      QM      Fc  Pr&gt;Fc
+#&gt; Planta             2 0.00774 0.00387  4.1781 0.0225
+#&gt; Dose:Planta brasu  2 0.00233 0.00117  1.2599 0.2947
+#&gt; Dose:Planta eiccr  2 0.00177 0.00089  0.9575 0.3925
+#&gt; Dose:Planta pisst  2 0.00789 0.00395  4.2621  0.021
+#&gt; Ad vs Fatorial     1 0.03827 0.03827 41.3307      0
+#&gt; Residuo           40 0.03704 0.00093               
+#&gt; Total             49 0.09505                       
+#&gt; ------------------------------------------------------------------------
+#&gt; 
+#&gt; 
+#&gt; 
+#&gt;  Dose  dentro do nivel  brasu  de  Planta 
+#&gt; ------------------------------------------------------------------------
+#&gt; Teste de Tukey
+#&gt; ------------------------------------------------------------------------
+#&gt; Grupos Tratamentos Medias
+#&gt; a     40      0.192 
+#&gt; a     27      0.172 
+#&gt; a     13.5    0.162 
+#&gt; ------------------------------------------------------------------------
+#&gt; 
+#&gt; 
+#&gt;  Dose  dentro do nivel  eiccr  de  Planta 
+#&gt; ------------------------------------------------------------------------
+#&gt; Teste de Tukey
+#&gt; ------------------------------------------------------------------------
+#&gt; Grupos Tratamentos Medias
+#&gt; a     40      0.22 
+#&gt; a     27      0.198 
+#&gt; a     13.5    0.196 
+#&gt; ------------------------------------------------------------------------
+#&gt; 
+#&gt; 
+#&gt;  Dose  dentro do nivel  pisst  de  Planta 
+#&gt; ------------------------------------------------------------------------
+#&gt; Teste de Tukey
+#&gt; ------------------------------------------------------------------------
+#&gt; Grupos Tratamentos Medias
+#&gt; a     27      0.208 
+#&gt; ab    40      0.176 
+#&gt;  b    13.5    0.152 
+#&gt; ------------------------------------------------------------------------
 #&gt; [1] &quot;##########################################&quot;
 #&gt; [1] &quot;ANOVA para:  cd&quot;
 #&gt; [1] &quot;##########################################&quot;
@@ -2662,35 +3083,35 @@ for(i in seq_along(variaveis)){
 #&gt; 
 #&gt; 
 #&gt;  Dose  dentro do nivel  brasu  de  Planta 
-#&gt; 
-#&gt; De acordo com o teste F, as medias desse fator sao estatisticamente iguais.
 #&gt; ------------------------------------------------------------------------
-#&gt;   Niveis Medias
-#&gt; 1   13.5  0.014
-#&gt; 2     27  0.022
-#&gt; 3     40  0.024
+#&gt; Teste de Tukey
+#&gt; ------------------------------------------------------------------------
+#&gt; Grupos Tratamentos Medias
+#&gt; a     40      0.024 
+#&gt; a     27      0.022 
+#&gt; a     13.5    0.014 
 #&gt; ------------------------------------------------------------------------
 #&gt; 
 #&gt; 
 #&gt;  Dose  dentro do nivel  eiccr  de  Planta 
-#&gt; 
-#&gt; De acordo com o teste F, as medias desse fator sao estatisticamente iguais.
 #&gt; ------------------------------------------------------------------------
-#&gt;   Niveis Medias
-#&gt; 1   13.5  0.032
-#&gt; 2     27  0.024
-#&gt; 3     40  0.034
+#&gt; Teste de Tukey
+#&gt; ------------------------------------------------------------------------
+#&gt; Grupos Tratamentos Medias
+#&gt; a     40      0.034 
+#&gt; a     13.5    0.032 
+#&gt; a     27      0.024 
 #&gt; ------------------------------------------------------------------------
 #&gt; 
 #&gt; 
 #&gt;  Dose  dentro do nivel  pisst  de  Planta 
-#&gt; 
-#&gt; De acordo com o teste F, as medias desse fator sao estatisticamente iguais.
 #&gt; ------------------------------------------------------------------------
-#&gt;   Niveis Medias
-#&gt; 1   13.5  0.012
-#&gt; 2     27  0.020
-#&gt; 3     40  0.012
+#&gt; Teste de Tukey
+#&gt; ------------------------------------------------------------------------
+#&gt; Grupos Tratamentos Medias
+#&gt; a     27      0.02 
+#&gt; a     13.5    0.012 
+#&gt; a     40      0.012 
 #&gt; ------------------------------------------------------------------------
 #&gt; [1] &quot;##########################################&quot;
 #&gt; [1] &quot;ANOVA para:  pb&quot;
@@ -2722,22 +3143,22 @@ for(i in seq_along(variaveis)){
 #&gt; 
 #&gt; Contraste do tratamento adicional com o fatorial
 #&gt; ------------------------------------------------------------------------
-#&gt; De acordo com o teste F, as medias dos dois grupos sao estatisticamente iguais.
-#&gt;              Medias
-#&gt; Adicional 0.4500000
-#&gt; Fatorial  0.5122222
+#&gt;              Medias  
+#&gt; Adicional 0.4500000 a
+#&gt; Fatorial  0.5122222 b
 #&gt; ------------------------------------------------------------------------
 #&gt; 
 #&gt; Interacao nao significativa: analisando os efeitos simples
 #&gt; ------------------------------------------------------------------------
 #&gt; Planta
-#&gt; De acordo com o teste F, as medias desse fator sao estatisticamente iguais.
+#&gt; Teste de Tukey
 #&gt; ------------------------------------------------------------------------
-#&gt;   Niveis    Medias
-#&gt; 1  brasu 0.5500000
-#&gt; 2  eiccr 0.5140000
-#&gt; 3  pisst 0.4726667
+#&gt; Grupos Tratamentos Medias
+#&gt; a     brasu   0.55 
+#&gt; a     eiccr   0.514 
+#&gt; a     pisst   0.4726667 
 #&gt; ------------------------------------------------------------------------
+#&gt; 
 #&gt; Dose
 #&gt; De acordo com o teste F, as medias desse fator sao estatisticamente iguais.
 #&gt; ------------------------------------------------------------------------
